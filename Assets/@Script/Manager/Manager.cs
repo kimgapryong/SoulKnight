@@ -9,10 +9,15 @@ public class Manager : MonoBehaviour
 
     private CharacterManager _character = new CharacterManager();
     public static CharacterManager Character { get { return Instance._character; } }
+
     private ResourcesManager _resources = new ResourcesManager();
     public static ResourcesManager Resources { get { return Instance._resources; } }
+
     private UIManager _ui = new UIManager();
     public static UIManager UI { get { return Instance._ui; } }
+
+    private SceneManagerEx _scene = new SceneManagerEx();
+    public static SceneManagerEx Scene { get { return Instance._scene; } }
 
     private static void Init()
     {

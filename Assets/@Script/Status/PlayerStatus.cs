@@ -33,11 +33,13 @@ public class PlayerStatus : Status
             expAction.Invoke(value, Exp);
         }
     }
-    public PlayerStatus(Define.HeroType type,int level, float hp, float damage, float speed, float defence, float arange, float exp) : base(level, hp, damage, speed, defence, arange)
+    public PlayerStatus(Define.HeroType type,int level, float hp, float damage, float speed, float defence, float arange, float detection, float atkSpeed, float exp, float mp) : base(level, hp, damage, speed, defence, arange, detection, atkSpeed)
     {
         _type = type;
         Exp = exp;
         CurExp = Exp;
+        Mp = mp;
+        CurMp = Mp;
     }
 
     private void LevelUp()

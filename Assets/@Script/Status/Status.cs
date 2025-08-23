@@ -22,8 +22,10 @@ public class Status
     public float Speed { get; set; }
     public float Defence {  get; set; } 
     public float Arange { get; set; }
+    public float Detection { get; set; }
+    public float AtkSpeed {  get; set; }    
 
-    public Status(int level, float hp, float damage, float speed, float defence, float arange)
+    public Status(int level, float hp, float damage, float speed, float defence, float arange, float detection, float atkSpeed)
     {
         Level = level;
         Hp = hp;
@@ -32,5 +34,7 @@ public class Status
         Speed = speed;
         Defence = defence;
         Arange = arange;
+        Detection = detection;
+        AtkSpeed = atkSpeed;
     }
 }
