@@ -15,7 +15,7 @@ public class Status
         set
         {
             _curHp = value;
-            hpAction.Invoke(value, Hp);
+            hpAction?.Invoke(value, Hp);
         }
     }
     public float Damage { get; set; }

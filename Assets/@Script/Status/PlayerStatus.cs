@@ -19,7 +19,7 @@ public class PlayerStatus : Status
         set
         {
             _curMp = value;
-            mpAction.Invoke(value, Mp);
+            mpAction?.Invoke(value, Mp);
         }
     }
     public float Exp { get; protected set; } = 150;
@@ -30,7 +30,7 @@ public class PlayerStatus : Status
         set
         {
             _curExp = value;
-            expAction.Invoke(value, Exp);
+            expAction?.Invoke(value, Exp);
         }
     }
     public PlayerStatus(Define.HeroType type,int level, float hp, float damage, float speed, float defence, float arange, float detection, float atkSpeed, float exp, float mp) : base(level, hp, damage, speed, defence, arange, detection, atkSpeed)

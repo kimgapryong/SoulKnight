@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Warrior
   m_EditorClassIdentifier: 
   Type: 2
-  Path: Warrior
+  Path: GrandWarrior
   HeroName: "\uAE40\uCD98\uBC30 \uD560\uBC94"
   Image: {fileID: 1235319857, guid: ed0f351e2eacf6149b06daad559aa628, type: 3}
   Level: 1

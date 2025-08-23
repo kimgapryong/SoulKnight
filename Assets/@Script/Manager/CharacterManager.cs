@@ -14,7 +14,7 @@ public class CharacterManager
     public void CreatePlayer(PlayerData data, Vector3 pos)
     {
         GameObject player = Manager.Resources.Instantiate($"Players/{data.Path}", pos, Quaternion.identity);
-        player.name = data.HeroName;
+        player.name = data.Path;
 
         PlayerController pc = player.AddComponent<PlayerController>();
         pc.SetInfo(new PlayerStatus(data.Type, data.Level, data.Hp, data.Damange, data.Speed, data.Defence, data.Arange, data.Detction, data.AtkSpeed, 100, data.Mp));
