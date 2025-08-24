@@ -4,48 +4,79 @@ using UnityEngine;
 
 public class CharacterManager
 {
+    private int playerCount = 0;
     private int index;
-    public List<PlayerController> _playerList = new List<PlayerController>();
 
-    private void AddPlayer(PlayerController player)
-    {
-        _playerList.Add(player);
-    }
-
+    public Dictionary<int, PlayerController[]> _playerDic = new Dictionary<int, PlayerController[]>(); 
+    
     public void CreatePlayer(PlayerData data, Vector3 pos)
     {
+        PlayerController[] pcList = new PlayerController[2];
+
         GameObject player = Manager.Resources.Instantiate($"Players/{data.Path}", pos, Quaternion.identity);
         player.name = data.Path;
 
+        PlayerStatus status = new PlayerStatus(data.Type, data.Level, data.Hp, data.Damange, data.Speed, data.Defence, data.Arange, data.Detction, data.AtkSpeed, 100, data.Mp);
+
         PlayerController pc = player.AddComponent<PlayerController>();
-        pc.SetInfo(new PlayerStatus(data.Type, data.Level, data.Hp, data.Damange, data.Speed, data.Defence, data.Arange, data.Detction, data.AtkSpeed, 100, data.Mp));
+        pc.SetInfo(status);
+        AutoPlayerController auto = player.AddComponent<AutoPlayerController>();
+        auto.SetInfo(status);
+
+        pcList[0] = pc;
+        pcList[1] = auto;
 
         //처음 등록한 플레이어
-        if(_playerList.Count == 0)
+        if(playerCount == 0)
         {
             index = 0;
+            auto.enabled = false;
             Manager.Instance.SetPlayer(pc);
             Manager.Camera.ChangePlayer(pc);
         }
+        else
+        {
+            pc.enabled = false;
+            auto.enabled = true;
+        }
 
-        AddPlayer(pc);
+        _playerDic.Add(playerCount, pcList);
+        playerCount++;
     }
     public void ChangePlayer(int idx)
     {
         index += idx;
 
         if(index < 0)
-            index = _playerList.Count - 1;
+            index = _playerDic.Count - 1;
 
-        if(index >= _playerList.Count)
+        if(index >= _playerDic.Count)
             index = 0;
 
-        foreach(PlayerController pc in _playerList) 
-            pc.enabled = false;
 
-        _playerList[index].enabled = true;
-        Manager.Instance.SetPlayer(_playerList[index]);
-        Manager.Camera.ChangePlayer(_playerList[index]);
+        //플레이어 자동화 활성/비활성
+        foreach(PlayerController[] pcList in _playerDic.Values)
+        {
+            pcList[0].enabled = false; //PlayerController는 비활성화
+            pcList[1].enabled = true; //AutoPlayerController는 활성화
+        }
 
+        _playerDic[index][0].enabled = true;
+        _playerDic[index][1].enabled = false ;
+
+        Manager.Instance.SetPlayer(_playerDic[index][0]);
+        Manager.Camera.ChangePlayer(_playerDic[index][0]);
+
+    }
+
+    public void ChangeAutoState(Define.State state)
+    {
+        foreach (PlayerController[] pcList in _playerDic.Values)
+        {
+            if(_playerDic[index][1] == pcList[1])
+                continue;
+
+            pcList[1].State = state;
+        }
     }
 }

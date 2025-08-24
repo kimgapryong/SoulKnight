@@ -71,9 +71,9 @@ public class CreatureController : BaseController
         Move();
     }
 
-    protected virtual void Attack() { Debug.Log("공격"); }
+    protected virtual void Attack() {  }
     protected virtual void Move() { }
-    protected virtual void Idle() { Debug.Log("대기"); }
+    protected virtual void Idle() { rb.velocity = Vector2.zero; }
 
     protected virtual void OnDamage(CreatureController attker, float damage)
     {

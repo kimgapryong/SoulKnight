@@ -26,7 +26,7 @@ public class CharacterPop : UI_Pop
 
         BindEvent(GetButton((int)Buttons.GameStart_Btn).gameObject, () =>
         {
-            Manager.Scene.Load("StartStage", () => { Manager.Character.CreatePlayer(startData, Vector3.zero); });
+            Manager.Scene.Load("StartStage", () => { SpwanCharacter(); });
         });
         GetButton((int)Buttons.GameStart_Btn).gameObject.SetActive(false);
 
@@ -40,7 +40,19 @@ public class CharacterPop : UI_Pop
         }
         return true;
     }
+    private void SpwanCharacter()
+    {
+        Vector3 vec = Vector3.zero;
+        Manager.Character.CreatePlayer(startData, vec);
+        for(int i =0; i < _datas.Length;i++)
+        {
+            if (_datas[i] == startData)
+                continue;
 
+            vec += Vector3.one;
+            Manager.Character.CreatePlayer(_datas[i], vec);
+        }
+    }
     public void SetInfo(PlayerData[] datas)
     {
         _datas = datas;

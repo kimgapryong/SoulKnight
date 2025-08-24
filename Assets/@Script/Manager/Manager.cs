@@ -39,6 +39,16 @@ public class Manager : MonoBehaviour
     {
         Player = player;
     }
+
+    public static GameObject _pos;
+    public static GameObject Pos { get { PosInit(); return _pos; } }
+    public static void PosInit()
+    {
+        if (_pos != null)
+            return;
+
+        _pos = Resources.Instantiate("CharacterPos");
+    }
     private static void Init()
     {
         if (_instance != null)

@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35802d03523ab654fb715021127c394a, type: 3}
-  m_Name: Archer
+  m_Name: NormalArcher
   m_EditorClassIdentifier: 
   Type: 1
-  Path: Archer
+  Path: NormalArcher
   HeroName: "\uAE40\uD6A8\uC6D0"
   Image: {fileID: -2076367042, guid: 8bc2dceed53ac6a4abc61b38b54e618f, type: 3}
   Level: 1
@@ -21,7 +21,7 @@ MonoBehaviour:
   Mp: 100
   Damange: 12
   AtkSpeed: 0.6
-  Speed: 8
+  Speed: 6
   Defence: 5
   Arange: 20
   Detction: 30

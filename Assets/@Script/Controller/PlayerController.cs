@@ -5,13 +5,15 @@ using UnityEngine;
 public class PlayerController : CreatureController
 {
     private Define.HeroType _type;
-    private Vector3 endPoint;
+    protected Vector3 endPoint;
     private string animString;
+    protected float dist;
     protected override bool Init()
     {
         if(base.Init() == false)
             return false;
 
+        dist = 0.3f;
         
         return true;
     }
@@ -50,17 +52,25 @@ public class PlayerController : CreatureController
                 }   
                     break;
             }
+
+        if (GetType() == typeof(PlayerController))
+        {
+            if(state == Define.State.Idle)
+                return;
+            Manager.Character.ChangeAutoState(state);
+        }
+            
     }
     protected override void Move()
     {
-        if(Vector2.Distance(transform.position, endPoint) <=0.02f)
+        if(Vector2.Distance(transform.position, endPoint) <= dist)
         {
             Debug.Log("³¡");
             rb.velocity = Vector2.zero;
             State = Define.State.Idle;
             return;
         }
-
+        Debug.Log(_status.Speed);
         Direct = (endPoint - transform.position).normalized;
         rb.MovePosition(Vector2.MoveTowards(rb.position, (Vector2)endPoint, _status.Speed * Time.fixedDeltaTime));
 
