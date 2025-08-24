@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class CreatureController : BaseController
 {
+    public Vector3 Direct { get; protected set; }
+
     private Define.State _state;
     public Define.State State
     {
@@ -16,8 +18,23 @@ public class CreatureController : BaseController
         }
     }
 
+    protected Rigidbody2D rb;
+    protected Animator anim;
+    protected SpriteRenderer sr;
+
     protected Status _status;
     private bool _canAtk = true;
+
+    protected override bool Init()
+    {
+        if(base.Init() == false) 
+            return false;
+
+        rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
+        sr = GetComponent<SpriteRenderer>();
+        return true;
+    }
     protected void SetStatus(Status status)
     {
         _status = status;
@@ -37,18 +54,26 @@ public class CreatureController : BaseController
             case Define.State.Attack:
                 Attack();
                 break;
-            case Define.State.Run:
-                Run();
-                break;
             case Define.State.Idle:
                 Idle();
                 break;
         }
+
+        sr.flipX = (Direct.x > 0f) ? false
+                : (Direct.x < 0f) ? true
+                : sr.flipX;
     }
 
-    protected virtual void Attack() { }
-    protected virtual void Run() { }
-    protected virtual void Idle() { }
+    private void FixedUpdate()
+    {
+        if(State != Define.State.Move)
+            return;
+        Move();
+    }
+
+    protected virtual void Attack() { Debug.Log("공격"); }
+    protected virtual void Move() { }
+    protected virtual void Idle() { Debug.Log("대기"); }
 
     protected virtual void OnDamage(CreatureController attker, float damage)
     {
@@ -64,6 +89,9 @@ public class CreatureController : BaseController
             return;
         }
         StartCoroutine(WaitTime(callback: () => _canAtk = true));
+
+        sr.color = Color.red;
+        StartCoroutine(WaitTime(0.15f, () => sr.color = Color.white));
     }
     protected virtual void OnDie() { Debug.Log("뒤짐"); }
 

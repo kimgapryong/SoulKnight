@@ -19,6 +19,26 @@ public class Manager : MonoBehaviour
     private SceneManagerEx _scene = new SceneManagerEx();
     public static SceneManagerEx Scene { get { return Instance._scene; } }
 
+    private static CameraController _cam;
+    public static CameraController Camera { get { CameraInit(); return _cam; } private set { _cam = value; } }     
+    public static void CameraInit()
+    {
+        if(_cam != null)
+            return;
+
+        GameObject cam = Resources.Instantiate("Main Camera");
+        Camera = cam.GetOrAddComponent<CameraController>();
+    }
+    public void SetCamera(CameraController cam)
+    {
+        Camera = cam;
+    }
+
+    public static PlayerController Player { get; private set; }
+    public void SetPlayer(PlayerController player)
+    {
+        Player = player;
+    }
     private static void Init()
     {
         if (_instance != null)

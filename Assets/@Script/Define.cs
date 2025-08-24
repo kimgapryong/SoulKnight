@@ -12,7 +12,7 @@ public static class Define
     }
     public enum State
     {
-        Run,
+        Move,
         Attack,
         Idle,
     }
