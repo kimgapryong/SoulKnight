@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class InputController : BaseController
 {
@@ -18,9 +20,9 @@ public class InputController : BaseController
 
     private void Update()
     {
+        Vector3 mousePos = mainCam.ScreenToWorldPoint(Input.mousePosition);
         if (Input.GetMouseButtonDown(1) || Input.GetMouseButton(1))
         {
-            Vector3 mousePos = mainCam.ScreenToWorldPoint(Input.mousePosition);
             if(mousePos.x < Manager.Pos.transform.position.x)
                 Manager.Pos.transform.eulerAngles = Vector3.zero;
             else if(mousePos.x > Manager.Pos.transform.position.x)
@@ -30,6 +32,19 @@ public class InputController : BaseController
             PlayerPosition();
         }
         
+        if(Input.GetMouseButtonDown(0) || Input.GetMouseButton(0))
+        {
+            if (EventSystem.current && EventSystem.current.IsPointerOverGameObject())
+                return;
+
+            Collider2D col = Physics2D.OverlapPoint(mousePos, LayerMask.GetMask("Monster"));
+            if (col)
+            {
+                GameObject obj = col.gameObject;
+                Debug.Log("몬스터다");
+            }
+
+        }
     }
 
     private void PlayerPosition()

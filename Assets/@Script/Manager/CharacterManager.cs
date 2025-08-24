@@ -18,7 +18,7 @@ public class CharacterManager
 
         PlayerStatus status = new PlayerStatus(data.Type, data.Level, data.Hp, data.Damange, data.Speed, data.Defence, data.Arange, data.Detction, data.AtkSpeed, 100, data.Mp);
 
-        PlayerController pc = player.AddComponent<PlayerController>();
+        PlayerController pc = player.GetComponent<PlayerController>();
         pc.SetInfo(status);
         AutoPlayerController auto = player.AddComponent<AutoPlayerController>();
         auto.SetInfo(status);

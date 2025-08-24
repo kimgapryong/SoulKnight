@@ -13,7 +13,6 @@ public class AutoPlayerController : PlayerController
     }
     protected override void Move()
     {
-        Debug.LogWarning("¼¼ÆÃ");
         base.Move();
     }
 }

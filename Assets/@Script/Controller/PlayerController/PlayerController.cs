@@ -13,7 +13,7 @@ public class PlayerController : CreatureController
         if(base.Init() == false)
             return false;
 
-        dist = 0.3f;
+        dist = 0.001f;
         
         return true;
     }
@@ -70,7 +70,7 @@ public class PlayerController : CreatureController
             State = Define.State.Idle;
             return;
         }
-        Debug.Log(_status.Speed);
+        
         Direct = (endPoint - transform.position).normalized;
         rb.MovePosition(Vector2.MoveTowards(rb.position, (Vector2)endPoint, _status.Speed * Time.fixedDeltaTime));
 
