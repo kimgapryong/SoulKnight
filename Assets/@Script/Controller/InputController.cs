@@ -63,7 +63,7 @@ public class InputController : BaseController
         foreach (PlayerController[] plaList in Manager.Character._playerDic.Values)
         {
             var pc = plaList[0];
-            var auto = plaList[1];
+            var auto = plaList[1] as AutoPlayerController;
 
             if (pc == Manager.Player)
             {

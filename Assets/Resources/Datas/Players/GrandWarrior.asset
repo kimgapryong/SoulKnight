@@ -19,7 +19,7 @@ MonoBehaviour:
   Level: 1
   Hp: 200
   Mp: 50
-  Damange: 14
+  Damange: 0
   AtkSpeed: 0.6
   Speed: 6
   Defence: 10

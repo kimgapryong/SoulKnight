@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MonsterController : CreatureController
@@ -18,10 +19,10 @@ public class MonsterController : CreatureController
         if(base.Init() == false)
             return false;
 
-        Debug.Log("šë°¡");
         //Å×½ºÆ®
         _status = new EnemyStatus(1, 100, 10, 2, 5, 6, 9, 1, 100);
 
+        AddMy();
         State = Define.State.Idle;
 
         return true;
@@ -143,6 +144,16 @@ public class MonsterController : CreatureController
         base.OnDamage(attker, damage);
         Apply(attker.transform.position, 10f);
     }
+
+    protected override void OnDie(CreatureController attker)
+    {
+        AutoPlayerController auto = attker.GetComponent<AutoPlayerController>();
+        if(auto == null) 
+            return;
+
+        auto.AutoReset(this);
+        Destroy(gameObject);
+    }
     public  void Apply(Vector2 source, float power, float upBonus = 0f)
     {
         Debug.Log("³Ë»ª");
@@ -155,5 +166,11 @@ public class MonsterController : CreatureController
         rb.AddForce((dir + Vector2.up * upBonus) * power, ForceMode2D.Impulse);
 
         StartCoroutine(WaitTime(0.2f, () => { back = false; State = Define.State.Move; }));
+    }
+
+
+    private void AddMy()
+    {
+        Manager.Character._monList.Add(this);
     }
 }

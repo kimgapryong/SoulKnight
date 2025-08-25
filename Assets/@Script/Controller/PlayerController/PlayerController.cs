@@ -8,9 +8,9 @@ public class PlayerController : CreatureController
     protected Vector3 endPoint;
     private string animString;
     protected float dist; // 도착지점 거리
-    protected MonsterController monster; // 현재 몬스터
+    public MonsterController monster; // 현재 몬스터
     protected bool atkCool; // 공격시간 쿨타임
-    private bool isWalk; //공격시 이동중인지
+    protected bool isWalk; //공격시 이동중인지
     protected override bool Init()
     {
         if(base.Init() == false)
@@ -29,16 +29,24 @@ public class PlayerController : CreatureController
 
     protected override void ChangeAnim(Define.State state)
     {
+        if (!(this is AutoPlayerController))
+        {
+            if(State == Define.State.Idle)
+                return;
+            Manager.Character.ChangeAutoState(State);
+        }
+            
+
         string animKey = "Side";
-        if (Mathf.Abs(Direct.x) - Mathf.Abs(Direct.y) > 0)
-            animKey = "Side";
-        else if (Mathf.Abs(Direct.x) - Mathf.Abs(Direct.y) < 0)
+        if (Mathf.Abs(Direct.x) - Mathf.Abs(Direct.y) < 0)
             if (Direct.y > 0)
                 animKey = "B";
             else
                 animKey = "F";
+        else if (Mathf.Abs(Direct.x) - Mathf.Abs(Direct.y) > 0)
+            animKey = "Side";
 
-            switch (state)
+        switch (state)
             {
                 case Define.State.Attack:
                 {
@@ -59,23 +67,16 @@ public class PlayerController : CreatureController
                     break;
                 case Define.State.Idle:
                 {
-                    string idleKey = animString == "Walk_Side" ? "Idle_Side" : animString == "Walk_F" ? "Idle_F" : "Idle_B";
+                    string idleKey = animString == "Walk_Side" ? "Idle_Side" : animString == "Walk_F" ? "Idle_F" : animString == "Walk_B" ? "Idle_B" : "Idle_Side";
+                    Debug.LogWarning(idleKey);
                     anim.Play(idleKey);
                 }   
                     break;
-             
             }
-
-        if (GetType() == typeof(PlayerController))
-        {
-            if(state == Define.State.Idle)
-                return;
-            Manager.Character.ChangeAutoState(state);
-        }
-            
     }
     protected override void Move()
     {
+        monster = null;
         if(Vector2.Distance(transform.position, endPoint) <= dist)
         {
             rb.velocity = Vector2.zero;
@@ -90,6 +91,9 @@ public class PlayerController : CreatureController
 
     protected override void Attack()
     {
+        if(monster == null)
+            return;
+
         if(Vector2.Distance(transform.position, monster.transform.position) <= _status.Arange)
         {
             isWalk = false;
@@ -115,7 +119,6 @@ public class PlayerController : CreatureController
     }
     private void AtkMove()
     {
-        Debug.Log("걷는 중");
         Direct = (monster.transform.position - transform.position).normalized;
         rb.MovePosition(Vector2.MoveTowards(rb.position, (Vector2)monster.transform.position, _status.Speed * Time.fixedDeltaTime));
     }
@@ -123,21 +126,22 @@ public class PlayerController : CreatureController
     protected virtual void NormalAttack()
     {
         monster.OnDamage(this, _status.Damage);
-        
         Debug.Log(monster +"공격");
     }
     public void SetPoint(Vector3 point)
     {
         State = Define.State.Move;
+        ChangeAnim(Define.State.Move);
         endPoint = point;
     }
     public void SetTarget(MonsterController monster)
     {
-        State = Define.State.Attack;
+        
         if(this.monster == monster)
             return;
 
+        ChangeAnim(Define.State.Move);
+        State = Define.State.Attack;
         this.monster = monster;
-        Debug.Log("설정완료");
     }
 }

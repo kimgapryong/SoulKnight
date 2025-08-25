@@ -23,5 +23,5 @@ MonoBehaviour:
   AtkSpeed: 0.6
   Speed: 6
   Defence: 5
-  Arange: 20
+  Arange: 6
   Detction: 30

@@ -4,5 +4,8 @@ using UnityEngine;
 
 public class StupidMagician : PlayerController
 {
- 
+    protected override void NormalAttack()
+    {
+        
+    }
 }

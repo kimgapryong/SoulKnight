@@ -13,7 +13,7 @@ public class CreatureController : BaseController
         get { return _state; }
         set
         {
-            if (_state == value) return;
+            //if (_state == value) return;
             _state = value;
             ChangeAnim(value);
         }
@@ -91,7 +91,7 @@ public class CreatureController : BaseController
 
         if(_status.CurHp <= 0)
         {
-            OnDie();
+            OnDie(attker);
             return;
         }
         StartCoroutine(WaitTime(callback: () => _canAtk = true));
@@ -99,7 +99,7 @@ public class CreatureController : BaseController
         sr.color = Color.red;
         StartCoroutine(WaitTime(0.15f, () => sr.color = Color.white));
     }
-    protected virtual void OnDie() { Debug.Log("µÚÁü"); }
+    protected virtual void OnDie(CreatureController attker) { Debug.Log("µÚÁü"); }
 
     protected virtual IEnumerator WaitTime(float time = 0.3f, Action callback = null)
     {
