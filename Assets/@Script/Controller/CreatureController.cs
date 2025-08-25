@@ -13,6 +13,7 @@ public class CreatureController : BaseController
         get { return _state; }
         set
         {
+            if (_state == value) return;
             _state = value;
             ChangeAnim(value);
         }
@@ -80,7 +81,7 @@ public class CreatureController : BaseController
     protected virtual void Move() { }
     protected virtual void Idle() { rb.velocity = Vector2.zero; }
 
-    protected virtual void OnDamage(CreatureController attker, float damage)
+    public virtual void OnDamage(CreatureController attker, float damage)
     {
         if(!_canAtk)
             return;

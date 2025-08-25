@@ -7,7 +7,10 @@ public class PlayerController : CreatureController
     private Define.HeroType _type;
     protected Vector3 endPoint;
     private string animString;
-    protected float dist;
+    protected float dist; // 도착지점 거리
+    protected MonsterController monster; // 현재 몬스터
+    protected bool atkCool; // 공격시간 쿨타임
+    private bool isWalk; //공격시 이동중인지
     protected override bool Init()
     {
         if(base.Init() == false)
@@ -38,7 +41,15 @@ public class PlayerController : CreatureController
             switch (state)
             {
                 case Define.State.Attack:
-
+                {
+                    if (isWalk)
+                    {
+                        Debug.Log("애니메이션 실행");
+                        animString = $"Walk_{animKey}";
+                        anim.Play(animString);
+                    }
+                    Debug.Log("애니메이션 비비실행");
+                }
                     break;
                 case Define.State.Move:
                 {
@@ -52,6 +63,7 @@ public class PlayerController : CreatureController
                     anim.Play(idleKey);
                 }   
                     break;
+             
             }
 
         if (GetType() == typeof(PlayerController))
@@ -76,9 +88,56 @@ public class PlayerController : CreatureController
 
     }
 
+    protected override void Attack()
+    {
+        if(Vector2.Distance(transform.position, monster.transform.position) <= _status.Arange)
+        {
+            isWalk = false;
+            rb.velocity = Vector2.zero;
+            ChangeAnim(Define.State.Attack);
+
+            if (atkCool)
+                return;
+
+            atkCool = true;
+            NormalAttack();
+
+            State = Define.State.Idle;
+            StartCoroutine(WaitTime(_status.AtkSpeed, () => { atkCool = false; State = Define.State.Attack; }));
+        }
+        else
+        {
+            isWalk = true;
+            ChangeAnim(Define.State.Attack);
+            AtkMove();
+        }
+
+    }
+    private void AtkMove()
+    {
+        Debug.Log("걷는 중");
+        Direct = (monster.transform.position - transform.position).normalized;
+        rb.MovePosition(Vector2.MoveTowards(rb.position, (Vector2)monster.transform.position, _status.Speed * Time.fixedDeltaTime));
+    }
+
+    protected virtual void NormalAttack()
+    {
+        monster.OnDamage(this, _status.Damage);
+        
+        Debug.Log(monster +"공격");
+    }
     public void SetPoint(Vector3 point)
     {
         State = Define.State.Move;
         endPoint = point;
+    }
+    public void SetTarget(MonsterController monster)
+    {
+        State = Define.State.Attack;
+        if(this.monster == monster)
+            return;
+
+        this.monster = monster;
+        Debug.Log("설정완료");
     }
 }

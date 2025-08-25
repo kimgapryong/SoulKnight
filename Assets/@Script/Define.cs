@@ -15,5 +15,6 @@ public static class Define
         Move,
         Attack,
         Idle,
+        
     }
 }

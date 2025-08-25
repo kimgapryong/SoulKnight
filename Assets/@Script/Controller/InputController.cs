@@ -40,8 +40,12 @@ public class InputController : BaseController
             Collider2D col = Physics2D.OverlapPoint(mousePos, LayerMask.GetMask("Monster"));
             if (col)
             {
-                GameObject obj = col.gameObject;
-                Debug.Log("몬스터다");
+                MonsterController monster = col.GetComponent<MonsterController>();
+                if (monster == null)
+                    return;
+
+                Debug.Log("공격설정");
+                Manager.Player.SetTarget(monster);
             }
 
         }
