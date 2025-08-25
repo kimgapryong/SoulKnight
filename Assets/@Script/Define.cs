@@ -17,4 +17,12 @@ public static class Define
         Idle,
         
     }
+    public enum SkillType
+    {
+        Skill1,
+        Skill2,
+        Skill3,
+        Skill4,
+        Skill5,
+    }
 }
