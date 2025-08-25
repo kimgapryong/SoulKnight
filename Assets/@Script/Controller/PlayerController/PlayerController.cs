@@ -13,6 +13,7 @@ public class PlayerController : CreatureController
         if(base.Init() == false)
             return false;
 
+        State = Define.State.Idle;
         dist = 0.001f;
         
         return true;
@@ -65,7 +66,6 @@ public class PlayerController : CreatureController
     {
         if(Vector2.Distance(transform.position, endPoint) <= dist)
         {
-            Debug.Log("³¡");
             rb.velocity = Vector2.zero;
             State = Define.State.Idle;
             return;

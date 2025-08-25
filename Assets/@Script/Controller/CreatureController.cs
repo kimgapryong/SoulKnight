@@ -47,8 +47,9 @@ public class CreatureController : BaseController
     protected virtual void ChangeAnim(Define.State state) { }
         
 
-    protected void UpdateMethod()
+    protected virtual void UpdateMethod()
     {
+        
         switch (State)
         {
             case Define.State.Attack:
@@ -59,9 +60,13 @@ public class CreatureController : BaseController
                 break;
         }
 
-        sr.flipX = (Direct.x > 0f) ? false
-                : (Direct.x < 0f) ? true
-                : sr.flipX;
+        float y = (Direct.x > 0f) ? 0f
+                : (Direct.x < 0f) ? -180f
+                : transform.position.y;
+
+        Vector3 rot = transform.eulerAngles;
+        rot.y = y;
+        transform.eulerAngles = rot;
     }
 
     private void FixedUpdate()
