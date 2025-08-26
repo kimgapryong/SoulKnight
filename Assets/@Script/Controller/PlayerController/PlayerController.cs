@@ -11,6 +11,8 @@ public class PlayerController : CreatureController
     public MonsterController monster; // 현재 몬스터
     protected bool atkCool; // 공격시간 쿨타임
     protected bool isWalk; //공격시 이동중인지
+
+    public Skill _skill;
     protected override bool Init()
     {
         if(base.Init() == false)
@@ -19,6 +21,8 @@ public class PlayerController : CreatureController
         State = Define.State.Idle;
         dist = 0.001f;
         
+        _skill= transform.Find("SkillAnim").GetComponent<Skill>();
+
         return true;
     }
 
@@ -52,11 +56,9 @@ public class PlayerController : CreatureController
                 {
                     if (isWalk)
                     {
-                        Debug.Log("애니메이션 실행");
                         animString = $"Walk_{animKey}";
                         anim.Play(animString);
                     }
-                    Debug.Log("애니메이션 비비실행");
                 }
                     break;
                 case Define.State.Move:
@@ -68,7 +70,6 @@ public class PlayerController : CreatureController
                 case Define.State.Idle:
                 {
                     string idleKey = animString == "Walk_Side" ? "Idle_Side" : animString == "Walk_F" ? "Idle_F" : animString == "Walk_B" ? "Idle_B" : "Idle_Side";
-                    Debug.LogWarning(idleKey);
                     anim.Play(idleKey);
                 }   
                     break;
@@ -126,7 +127,6 @@ public class PlayerController : CreatureController
     protected virtual void NormalAttack()
     {
         monster.OnDamage(this, _status.Damage);
-        Debug.Log(monster +"공격");
     }
     public void SetPoint(Vector3 point)
     {
@@ -144,4 +144,17 @@ public class PlayerController : CreatureController
         State = Define.State.Attack;
         this.monster = monster;
     }
+
+    private void OnEnable()
+    {
+        if (this is AutoPlayerController)
+            return;
+
+        if(_skill == null)
+            _skill = transform.Find("SkillAnim").GetComponent<Skill>();
+
+        _skill.SetPlayer(this);
+
+    }
+  
 }

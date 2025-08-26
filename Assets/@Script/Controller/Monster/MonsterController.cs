@@ -156,7 +156,6 @@ public class MonsterController : CreatureController
     }
     public  void Apply(Vector2 source, float power, float upBonus = 0f)
     {
-        Debug.Log("³Ë»ª");
 
         State = Define.State.Idle;
         back = true;
@@ -171,6 +170,6 @@ public class MonsterController : CreatureController
 
     private void AddMy()
     {
-        Manager.Character._monList.Add(this);
+        Manager.Monster._monList.Add(this);
     }
 }

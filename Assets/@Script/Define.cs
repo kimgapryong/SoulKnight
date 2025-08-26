@@ -17,6 +17,12 @@ public static class Define
         Idle,
         
     }
+    public enum HeroName
+    {
+        StupidMagician,
+        NormalArcher,
+        GrandWarrior,
+    }
     public enum SkillType
     {
         Skill1,

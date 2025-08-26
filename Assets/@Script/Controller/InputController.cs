@@ -44,7 +44,6 @@ public class InputController : BaseController
                 if (monster == null)
                     return;
 
-                Debug.Log("공격설정");
                 Manager.Player.SetTarget(monster);
             }
 

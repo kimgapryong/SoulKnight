@@ -18,6 +18,10 @@ public class Manager : MonoBehaviour
 
     private SceneManagerEx _scene = new SceneManagerEx();
     public static SceneManagerEx Scene { get { return Instance._scene; } }
+    private SkillManager _skill = new SkillManager();
+    public static SkillManager Skill { get { return Instance._skill; } }
+    private MonsterManager _monster = new MonsterManager();
+    public static MonsterManager Monster { get { return Instance._monster; } }
 
     private static CameraController _cam;
     public static CameraController Camera { get { CameraInit(); return _cam; } private set { _cam = value; } }     

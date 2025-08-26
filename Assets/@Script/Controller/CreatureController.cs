@@ -23,7 +23,7 @@ public class CreatureController : BaseController
     protected Animator anim;
     protected SpriteRenderer sr;
 
-    protected Status _status;
+    public Status _status;
     private bool _canAtk = true;
 
     protected override bool Init()

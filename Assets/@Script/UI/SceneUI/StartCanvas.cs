@@ -22,7 +22,7 @@ public class StartCanvas : UI_Scene
 
         BindEvent(GetObject((int)Objects.Start_Btn).gameObject, () =>
         {
-            Debug.Log("Å¬¸¯");
+
             Manager.UI.ShowPopUI<CharacterPop>(callback: (pop) =>
             {
                 pop.SetInfo(_datas);

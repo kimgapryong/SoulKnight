@@ -8,7 +8,7 @@ public class CharacterManager
     private int index;
 
     public Dictionary<int, PlayerController[]> _playerDic = new Dictionary<int, PlayerController[]>(); 
-    public List<MonsterController> _monList = new List<MonsterController>();
+    
     public void CreatePlayer(PlayerData data, Vector3 pos)
     {
         PlayerController[] pcList = new PlayerController[2];
@@ -38,6 +38,7 @@ public class CharacterManager
         {
             pc.enabled = false;
             auto.enabled = true;
+
         }
 
         _playerDic.Add(playerCount, pcList);
@@ -68,16 +69,19 @@ public class CharacterManager
         Manager.Camera.ChangePlayer(_playerDic[index][0]);
 
     }
-
     public void ChangeAutoState(Define.State state)
     {
-        Debug.Log("¹¹°¡ ¹Ù²ï°ÍÀÌ³Ä" + state);
         foreach (PlayerController[] pcList in _playerDic.Values)
         {
             if(_playerDic[index][1] == pcList[1])
                 continue;
 
-            pcList[1].State = state;
+            AutoPlayerController auto = pcList[1] as AutoPlayerController;
+            if (state == Define.State.Attack)
+                auto.StartAutoSkill();
+            else 
+                auto.StopAutoSkill();
+            auto.State = state;
         }
     }
 }
