@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,7 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 public class AutoPlayerController : PlayerController
 {
     public Coroutine _cor;
+    public Action atkAction;
     protected override bool Init()
     {
         if (base.Init() == false)
@@ -17,7 +19,6 @@ public class AutoPlayerController : PlayerController
    
     protected override void UpdateMethod()
     {
-        Debug.LogWarning(State);
         base.UpdateMethod();
         SearchMonster();
     }
@@ -44,6 +45,10 @@ public class AutoPlayerController : PlayerController
         this.monster = null;
     }
 
+    protected override void NormalAttack()
+    {
+        atkAction?.Invoke();
+    }
     public IEnumerator AutoSkill()
     {
         var types = new Define.SkillType[4] { Define.SkillType.Skill1, Define.SkillType.Skill2, Define.SkillType.Skill3, Define.SkillType.Skill4 };

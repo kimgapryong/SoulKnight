@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class NormalArcher : PlayerController
 {
+    protected override bool Init()
+    {
+        if(base.Init() == false )
+            return false;
+        GetComponent<AutoPlayerController>().atkAction -= NormalAttack;
+        GetComponent<AutoPlayerController>().atkAction += NormalAttack;
+        return true;
+    }
     protected override void NormalAttack()
     {
         GameObject obj = Manager.Resources.Instantiate("Projectile/NormalArrow", transform.position, Quaternion.identity);

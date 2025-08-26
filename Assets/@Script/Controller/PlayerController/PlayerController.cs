@@ -23,6 +23,8 @@ public class PlayerController : CreatureController
         
         _skill= transform.Find("SkillAnim").GetComponent<Skill>();
 
+       
+       
         return true;
     }
 
