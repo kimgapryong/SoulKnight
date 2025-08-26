@@ -4,5 +4,11 @@ using UnityEngine;
 
 public class NormalArcher : PlayerController
 {
-   
+    protected override void NormalAttack()
+    {
+        GameObject obj = Manager.Resources.Instantiate("Projectile/NormalArrow", transform.position, Quaternion.identity);
+        Vector2 dir = (monster.transform.position - obj.transform.position).normalized;
+        ProjectileController pre =  obj.AddComponent<ProjectileController>();
+        pre.SetInfo(this, dir, _status.Damage);
+    }
 }

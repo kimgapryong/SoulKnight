@@ -1,0 +1,51 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ProjectileController : BaseController
+{
+    private float damage;
+    private CreatureController attker;
+    private Vector3 dir;
+    private float speed;
+
+    private bool penetration;
+    public void SetInfo(CreatureController attker, Vector3 dir, float damage, float speed = 7f, bool penetration = false, float time = 0.1f)
+    {
+        this.attker = attker;
+        this.dir = dir;
+        this.damage = damage;
+        this.speed = speed;
+        this.penetration = penetration;
+
+        AlignRotationToDir();
+        if (penetration)
+        {
+            Destroy(gameObject, time);
+            return;
+        }
+        Destroy(gameObject, 5);    
+        
+    }
+    private void AlignRotationToDir()
+    {
+        if (dir.sqrMagnitude < 0.0001f) return;
+        dir = dir.normalized;
+
+        float angle = Vector2.SignedAngle(Vector2.right, (Vector2)dir);
+        transform.rotation = Quaternion.Euler(0f, 0f, angle);
+    }
+    private void Update()
+    {
+        transform.position += dir * speed * Time.deltaTime;
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        MonsterController m = collision.GetComponent<MonsterController>();
+        if (m == null) return;
+
+        m.OnDamage(attker, damage);
+        if(!penetration)
+            Destroy(gameObject);
+    }
+}

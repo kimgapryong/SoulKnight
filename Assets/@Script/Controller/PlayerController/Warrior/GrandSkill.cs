@@ -17,7 +17,7 @@ public class GrandSkill : Skill
         MonsterController target = _player.monster;
         
         if (target == null)
-            target = Manager.Monster.SearchMonster(transform.parent, data.SkillArange, 1)[0];
+            target = Manager.Monster.SearchMonster(transform.parent, data.SkillArange, data.Target)[0];
 
         skill1 = false;
 
