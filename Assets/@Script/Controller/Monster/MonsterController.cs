@@ -144,8 +144,9 @@ public class MonsterController : CreatureController
 
     public override void OnDamage(CreatureController attker, float damage)
     {
-        base.OnDamage(attker, damage);
         Apply(attker.transform.position, 10f);
+        base.OnDamage(attker, damage);
+       
     }
 
     protected override void OnDie(CreatureController attker)

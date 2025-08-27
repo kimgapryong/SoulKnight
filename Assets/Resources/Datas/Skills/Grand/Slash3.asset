@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 912da783308d1d94c82199fdb78ded3f, type: 3}
-  m_Name: Slash
+  m_Name: Slash3
   m_EditorClassIdentifier: 
   SkillName: 
   Image: {fileID: 0}

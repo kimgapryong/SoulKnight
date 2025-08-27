@@ -13,6 +13,8 @@ public class PlayerStatus : Status
     public Action levelAction;
     public Action<float, float> mpAction;
     public Action<float, float> expAction;
+
+    public int SkillPoint { get; set; } = 0;
     public float Mp { get; protected set; }
     private float _curMp;
     public float CurMp
@@ -62,7 +64,7 @@ public class PlayerStatus : Status
         }
         Speed *= 1.2f;
         Exp *= 1.6f;
-
+        SkillPoint++;
         levelAction.Invoke();
     }
 

@@ -8,6 +8,7 @@ public abstract class Skill : BaseController
     public Define.HeroName _hero;
     public SkillValue[] _data;
 
+    public Dictionary<Define.SkillType, bool[]> _skilCheckDic = new Dictionary<Define.SkillType, bool[]>();// 스킬의 레벨을 확인하는 딕셔너리
     public Dictionary<Define.SkillType, Action> _skillDic = new Dictionary<Define.SkillType, Action>(); //스킬 타입의 매핑
     public Dictionary<Define.SkillType, SkillData> _skillDataDic = new Dictionary<Define.SkillType, SkillData>();
 
@@ -39,7 +40,9 @@ public abstract class Skill : BaseController
         Manager.Skill.SetSkillDic(_hero, this); //히어로의 스킬 등록
         SetData();
 
-        _skillDataDic[Define.SkillType.Skill1] = _data[0].Datas[0];
+        _skillDataDic[Define.SkillType.Skill1] = _data[0].Datas[0]; //임시 스킬 데이터
+        _skillDataDic[Define.SkillType.Skill2] = _data[1].Datas[0];
+        _skillDataDic[Define.SkillType.Skill3] = _data[2].Datas[0];
 
         //처음에는 그냥 플레이어
         _player = transform.parent.GetComponent<PlayerController>();
@@ -69,6 +72,13 @@ public abstract class Skill : BaseController
          
             }
         }
+
+       foreach(SkillValue skillValue in _data)
+        {
+            bool[] boolArray = new bool[skillValue.Datas.Count];
+            _skilCheckDic.Add(skillValue.Type, boolArray);
+        }
+
     }
     public abstract void Skill1();
     public abstract void Skill2();
@@ -108,13 +118,37 @@ public abstract class Skill : BaseController
         ps.CurMp = Mathf.Max(0f, ps.CurMp - data.Mp);
         return true;
     }
-   
   
-    
     public void SetPlayer(PlayerController player)
     {
         _player = player;
     }
+
+    //플레이어의 스킬을 업글 가능한지 확인
+    public void SkillLevelUp(Define.SkillType type, int count, SkillData data)
+    {
+        bool[] boolArray;
+        //값이 존재하지 않으면
+        if (!_skilCheckDic.TryGetValue(type, out boolArray))
+        {
+            Debug.LogError("데이터가 존재하지 않음");
+            return;
+        }
+        //카운터가 0이 아니면 
+        if(count != 0)
+            if (!boolArray[count - 1])
+                return;
+
+        if (boolArray[count])
+            return;
+
+        _player._status.SkillPoint -= data.SkillPoint; // 스킬 포인트 제거
+        SkillUpgrade(type, data);
+
+        boolArray[count] = true;
+        _skilCheckDic[type] = boolArray;
+    }
+
 }
 [Serializable]
 public class SkillValue

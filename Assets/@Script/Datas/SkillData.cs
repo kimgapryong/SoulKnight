@@ -9,9 +9,12 @@ public class SkillData : ScriptableObject
     public Sprite Image;
 
     public int Target;
+    public int SkillPoint;
     public float Damage;
     public float Mp;
     public float SkillArange;
     public float CoolTime;
-    public bool Upgrade;
+
+    //연속공격
+    public int Again;
 }

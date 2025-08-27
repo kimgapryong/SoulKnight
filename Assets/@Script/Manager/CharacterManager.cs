@@ -83,7 +83,10 @@ public class CharacterManager
 
             AutoPlayerController auto = pcList[1] as AutoPlayerController;
             if (state == Define.State.Attack)
+            {
+                if(auto._cor != null) return;
                 auto.StartAutoSkill();
+            }
             else 
                 auto.StopAutoSkill();
             auto.State = state;

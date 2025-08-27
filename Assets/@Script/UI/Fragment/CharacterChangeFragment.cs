@@ -17,6 +17,10 @@ public class CharacterChangeFragment : UI_Base
         Hp_Txt,
         Mp_Txt,
     }
+    enum Buttons
+    {
+        Skill_Btn
+    }
     public PlayerController myPla;
     private PlayerStatus _status;
     
@@ -27,6 +31,7 @@ public class CharacterChangeFragment : UI_Base
 
         BindImage(typeof(Images));
         BindText(typeof(Texts));
+        BindButton(typeof(Buttons));
 
         Refresh();
 

@@ -39,6 +39,7 @@ public class PlayerController : CreatureController
         {
             if(State == Define.State.Idle)
                 return;
+
             Manager.Character.ChangeAutoState(State);
         }
             
