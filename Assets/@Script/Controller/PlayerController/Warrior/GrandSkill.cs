@@ -14,7 +14,7 @@ public class GrandSkill : Skill
         if (!Manager.Skill._skillDic.ContainsKey(_hero) || !skill1 || !CheckMp(data))
             return;
 
-        MonsterController target = _player.monster;
+        MonsterController target = _player._status.monster;
         
         if (target == null)
             target = Manager.Monster.SearchMonster(transform.parent, data.SkillArange, data.Target)[0];
@@ -23,7 +23,7 @@ public class GrandSkill : Skill
 
         //단일 몬스터 탐색
         Debug.Log(_player);
-        Debug.Log(_player.monster);
+        Debug.Log(_player._status.monster);
         
         GameObject obj = Manager.Resources.Instantiate("Skills/Slash", target.transform.position, Quaternion.identity);
         Animator anim = obj.GetComponent<Animator>();

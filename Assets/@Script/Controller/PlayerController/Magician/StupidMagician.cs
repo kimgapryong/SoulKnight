@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class StupidMagician : PlayerController
 {
-    protected override void NormalAttack()
+    public override void NormalAttack()
     {
-        
+        GameObject obj = Manager.Resources.Instantiate("Projectile/StupidMagic", transform.position, Quaternion.identity);
+        Vector2 dir = (_status.monster.transform.position - obj.transform.position).normalized;
+        ProjectileController pre = obj.AddComponent<ProjectileController>();
+        pre.SetInfo(this, dir, _status.Damage , 5);
     }
 }

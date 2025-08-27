@@ -10,6 +10,7 @@ public class MonsterController : CreatureController
     private Vector3 endPoint;
     protected float moveDist = 2f;
     private bool back = false;
+    protected EnemyStatus _status;
 
     [SerializeField]
     private PlayerController target;
@@ -20,7 +21,9 @@ public class MonsterController : CreatureController
             return false;
 
         //테스트
-        _status = new EnemyStatus(1, 100, 10, 2, 5, 6, 9, 1, 100);
+        _status = transform.AddComponent<EnemyStatus>();
+        _status.SetEnemyData("동그라미", null,1, 100, 10, 2, 5, 6, 9, 1, 100);
+        SetStatus(_status);
 
         AddMy();
         State = Define.State.Idle;

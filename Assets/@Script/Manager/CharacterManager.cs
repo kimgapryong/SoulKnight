@@ -1,10 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterManager
 {
-    private int playerCount = 0;
+    public Action ChangeAction;
+    public int playerCount = 0;
     private int index;
 
     public Dictionary<int, PlayerController[]> _playerDic = new Dictionary<int, PlayerController[]>(); 
@@ -16,7 +18,8 @@ public class CharacterManager
         GameObject player = Manager.Resources.Instantiate($"Players/{data.Path}", pos, Quaternion.identity);
         player.name = data.Path;
 
-        PlayerStatus status = new PlayerStatus(data.Type, data.Level, data.Hp, data.Damange, data.Speed, data.Defence, data.Arange, data.Detction, data.AtkSpeed, 100, data.Mp);
+        PlayerStatus status = player.AddComponent<PlayerStatus>();
+        status.SetPlayerData(data.Type,data.HeroName, data.Image, data.Level, data.Hp, data.Damange, data.Speed, data.Defence, data.Arange, data.Detction, data.AtkSpeed, 100, data.Mp);
 
         PlayerController pc = player.GetComponent<PlayerController>();
         pc.SetInfo(status);
@@ -67,6 +70,8 @@ public class CharacterManager
 
         Manager.Instance.SetPlayer(_playerDic[index][0]);
         Manager.Camera.ChangePlayer(_playerDic[index][0]);
+
+        ChangeAction.Invoke();
 
     }
     public void ChangeAutoState(Define.State state)

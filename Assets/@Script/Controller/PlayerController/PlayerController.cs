@@ -8,10 +8,10 @@ public class PlayerController : CreatureController
     protected Vector3 endPoint;
     private string animString;
     protected float dist; // 도착지점 거리
-    public MonsterController monster; // 현재 몬스터
+    //public MonsterController monster; // 현재 몬스터
     protected bool atkCool; // 공격시간 쿨타임
     protected bool isWalk; //공격시 이동중인지
-
+    public PlayerStatus _status;
     public Skill _skill;
     protected override bool Init()
     {
@@ -20,11 +20,11 @@ public class PlayerController : CreatureController
 
         State = Define.State.Idle;
         dist = 0.001f;
-        
+       
+        _status = GetComponent<PlayerStatus>();
+        SetStatus(_status);
         _skill= transform.Find("SkillAnim").GetComponent<Skill>();
 
-       
-       
         return true;
     }
 
@@ -79,7 +79,7 @@ public class PlayerController : CreatureController
     }
     protected override void Move()
     {
-        monster = null;
+        _status.monster = null;
         if(Vector2.Distance(transform.position, endPoint) <= dist)
         {
             rb.velocity = Vector2.zero;
@@ -94,10 +94,10 @@ public class PlayerController : CreatureController
 
     protected override void Attack()
     {
-        if(monster == null)
+        if(_status.monster == null)
             return;
 
-        if(Vector2.Distance(transform.position, monster.transform.position) <= _status.Arange)
+        if(Vector2.Distance(transform.position, _status.monster.transform.position) <= _status.Arange)
         {
             isWalk = false;
             rb.velocity = Vector2.zero;
@@ -122,13 +122,13 @@ public class PlayerController : CreatureController
     }
     private void AtkMove()
     {
-        Direct = (monster.transform.position - transform.position).normalized;
-        rb.MovePosition(Vector2.MoveTowards(rb.position, (Vector2)monster.transform.position, _status.Speed * Time.fixedDeltaTime));
+        Direct = (_status.monster.transform.position - transform.position).normalized;
+        rb.MovePosition(Vector2.MoveTowards(rb.position, (Vector2)_status.monster.transform.position, _status.Speed * Time.fixedDeltaTime));
     }
 
-    protected virtual void NormalAttack()
+    public virtual void NormalAttack()
     {
-        monster.OnDamage(this, _status.Damage);
+        _status.monster.OnDamage(this, _status.Damage);
     }
     public void SetPoint(Vector3 point)
     {
@@ -139,12 +139,12 @@ public class PlayerController : CreatureController
     public void SetTarget(MonsterController monster)
     {
         
-        if(this.monster == monster)
+        if(_status.monster == monster)
             return;
 
         ChangeAnim(Define.State.Move);
         State = Define.State.Attack;
-        this.monster = monster;
+        _status.monster = monster;
     }
 
     private void OnEnable()

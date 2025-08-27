@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class AutoPlayerController : PlayerController
 {
@@ -14,6 +13,7 @@ public class AutoPlayerController : PlayerController
             return false;
 
         State = Define.State.Idle;
+        SetNormalAtk();
         return true;
     }
    
@@ -24,7 +24,7 @@ public class AutoPlayerController : PlayerController
     }
     private void SearchMonster()
     {
-        if(State != Define.State.Attack && monster != null)
+        if(State != Define.State.Attack && _status.monster != null)
             return;
 
         float minValue = float.MaxValue;
@@ -34,7 +34,7 @@ public class AutoPlayerController : PlayerController
             if(minValue > curValue)
             {
                 minValue = curValue;
-                monster = m;
+                _status.monster = m;
             }
         }
     }
@@ -42,12 +42,22 @@ public class AutoPlayerController : PlayerController
     public void AutoReset(MonsterController monster)
     {
         Manager.Monster._monList.Remove(monster);
-        this.monster = null;
+        _status.monster = null;
     }
 
-    protected override void NormalAttack()
+    public override void NormalAttack()
     {
-        atkAction?.Invoke();
+            atkAction?.Invoke();
+    }
+    private void SetNormalAtk()
+    {
+        foreach (PlayerController pla in transform.GetComponentsInChildren<PlayerController>())
+        {
+            if (pla is AutoPlayerController)
+                continue;
+
+            atkAction = pla.NormalAttack;
+        }
     }
     public IEnumerator AutoSkill()
     {
@@ -59,10 +69,8 @@ public class AutoPlayerController : PlayerController
 
             
             yield return new WaitForSeconds(4f);
-            Debug.Log("여기로와");
             int randValue = UnityEngine.Random.Range(0, 4);
-            int test = 0;
-            Debug.Log(randValue);
+            int test = 0; // 고쳐
             _skill._skillDic[types[test]]?.Invoke();
         }
     }

@@ -3,9 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Status
+public class Status : MonoBehaviour
 {
     public Action<float, float> hpAction;
+    public string HeroName { get; private set; }
+    public Sprite Image { get; private set; }
     public int Level { get; set; }
     public float Hp { get; protected set; }
     private float _curHp;
@@ -25,8 +27,11 @@ public class Status
     public float Detection { get; set; }
     public float AtkSpeed {  get; set; }    
 
-    public Status(int level, float hp, float damage, float speed, float defence, float arange, float detection, float atkSpeed)
+    public virtual void SetInfo(string heroName, Sprite image,int level, float hp, float damage, float speed, float defence, float arange, float detection, float atkSpeed)
     {
+        HeroName = heroName;
+        Image = image;
+
         Level = level;
         Hp = hp;
         CurHp = hp;
@@ -36,5 +41,7 @@ public class Status
         Arange = arange;
         Detection = detection;
         AtkSpeed = atkSpeed;
+
+        
     }
 }

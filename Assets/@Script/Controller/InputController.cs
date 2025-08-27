@@ -23,16 +23,16 @@ public class InputController : BaseController
         Vector3 mousePos = mainCam.ScreenToWorldPoint(Input.mousePosition);
         if (Input.GetMouseButtonDown(1) || Input.GetMouseButton(1))
         {
-            if(mousePos.x < Manager.Pos.transform.position.x)
+            if (mousePos.x < Manager.Pos.transform.position.x)
                 Manager.Pos.transform.eulerAngles = Vector3.zero;
-            else if(mousePos.x > Manager.Pos.transform.position.x)
+            else if (mousePos.x > Manager.Pos.transform.position.x)
                 Manager.Pos.transform.eulerAngles = new Vector3(0, -180, 0);
 
             Manager.Pos.transform.position = mousePos;
             PlayerPosition();
         }
-        
-        if(Input.GetMouseButtonDown(0) || Input.GetMouseButton(0))
+
+        if (Input.GetMouseButtonDown(0) || Input.GetMouseButton(0))
         {
             if (EventSystem.current && EventSystem.current.IsPointerOverGameObject())
                 return;
@@ -46,7 +46,15 @@ public class InputController : BaseController
 
                 Manager.Player.SetTarget(monster);
             }
+        }
 
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            Manager.Character.ChangePlayer(1);
+        }
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            Manager.Character.ChangePlayer(-1);
         }
     }
 

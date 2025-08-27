@@ -6,7 +6,7 @@ using UnityEngine;
 public class CreatureController : BaseController
 {
     public Vector3 Direct { get; protected set; }
-
+    private Status status;
     private Define.State _state;
     public Define.State State
     {
@@ -23,7 +23,6 @@ public class CreatureController : BaseController
     protected Animator anim;
     protected SpriteRenderer sr;
 
-    public Status _status;
     private bool _canAtk = true;
 
     protected override bool Init()
@@ -36,10 +35,7 @@ public class CreatureController : BaseController
         sr = GetComponent<SpriteRenderer>();
         return true;
     }
-    protected void SetStatus(Status status)
-    {
-        _status = status;
-    }
+   
     private void Update()
     {
         UpdateMethod();
@@ -76,7 +72,10 @@ public class CreatureController : BaseController
             return;
         Move();
     }
-
+    public void SetStatus(Status status)
+    {
+        this.status = status;
+    }
     protected virtual void Attack() {  }
     protected virtual void Move() { }
     protected virtual void Idle() { rb.velocity = Vector2.zero; }
@@ -87,9 +86,9 @@ public class CreatureController : BaseController
             return;
 
         _canAtk = false;
-        _status.CurHp -= damage;    
+        status.CurHp -= damage;    
 
-        if(_status.CurHp <= 0)
+        if(status.CurHp <= 0)
         {
             OnDie(attker);
             return;

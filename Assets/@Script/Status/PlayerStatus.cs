@@ -8,7 +8,9 @@ public class PlayerStatus : Status
     private const int MAX_LEVEL = 20;
     
     private Define.HeroType _type;
+    public MonsterController monster;
 
+    public Action levelAction;
     public Action<float, float> mpAction;
     public Action<float, float> expAction;
     public float Mp { get; protected set; }
@@ -33,8 +35,10 @@ public class PlayerStatus : Status
             expAction?.Invoke(value, Exp);
         }
     }
-    public PlayerStatus(Define.HeroType type,int level, float hp, float damage, float speed, float defence, float arange, float detection, float atkSpeed, float exp, float mp) : base(level, hp, damage, speed, defence, arange, detection, atkSpeed)
+
+    public void SetPlayerData(Define.HeroType type,string name, Sprite image, int level, float hp, float damage, float speed, float defence, float arange, float detection, float atkSpeed, float exp, float mp)
     {
+        SetInfo(name, image, level, hp, damage, speed, defence, arange, detection, atkSpeed);
         _type = type;
         Exp = exp;
         CurExp = Exp;
@@ -58,6 +62,8 @@ public class PlayerStatus : Status
         }
         Speed *= 1.2f;
         Exp *= 1.6f;
+
+        levelAction.Invoke();
     }
 
     private void StatusUp(float hp, float damage, float defence, float mp)
