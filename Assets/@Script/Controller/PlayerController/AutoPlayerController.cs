@@ -70,7 +70,7 @@ public class AutoPlayerController : PlayerController
             yield return new WaitForSeconds(4f);
             int randValue = UnityEngine.Random.Range(0, 4);
             Debug.Log(randValue);
-            _skill._skillDic[types[3]]?.Invoke();
+            _skill._skillDic[types[randValue]]?.Invoke();
         }
     }
 
