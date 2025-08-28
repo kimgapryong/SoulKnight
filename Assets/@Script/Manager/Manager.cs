@@ -25,6 +25,9 @@ public class Manager : MonoBehaviour
 
     private static CameraController _cam;
     public static CameraController Camera { get { CameraInit(); return _cam; } private set { _cam = value; } }     
+
+    private RandomManager _random = new RandomManager();    
+    public static RandomManager Random { get { return Instance._random; } }
     public static void CameraInit()
     {
         if(_cam != null)

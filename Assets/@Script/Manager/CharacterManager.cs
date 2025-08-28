@@ -49,14 +49,16 @@ public class CharacterManager
     }
     public void ChangePlayer(int idx)
     {
-        index += idx;
+       /* index += idx;
 
         if(index < 0)
             index = _playerDic.Count - 1;
 
         if(index >= _playerDic.Count)
-            index = 0;
-
+            index = 0;*/
+       if(index == idx)
+            return;
+        index = idx;
 
         //플레이어 자동화 활성/비활성
         foreach(PlayerController[] pcList in _playerDic.Values)
@@ -84,7 +86,7 @@ public class CharacterManager
             AutoPlayerController auto = pcList[1] as AutoPlayerController;
             if (state == Define.State.Attack)
             {
-                if(auto._cor != null) return;
+                if (auto._cor != null) return;
                 auto.StartAutoSkill();
             }
             else 

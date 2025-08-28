@@ -48,13 +48,26 @@ public class InputController : BaseController
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        /*  if (Input.GetKeyDown(KeyCode.RightArrow))
+          {
+              Manager.Character.ChangePlayer(1);
+          }
+          else if (Input.GetKeyDown(KeyCode.LeftArrow))
+          {
+              Manager.Character.ChangePlayer(-1);
+          }*/
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            Manager.Character.ChangePlayer(0);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             Manager.Character.ChangePlayer(1);
         }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            Manager.Character.ChangePlayer(-1);
+            Manager.Character.ChangePlayer(2);
         }
     }
 

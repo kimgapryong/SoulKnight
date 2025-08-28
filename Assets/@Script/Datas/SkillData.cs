@@ -14,7 +14,12 @@ public class SkillData : ScriptableObject
     public float Mp;
     public float SkillArange;
     public float CoolTime;
+    public Color color;
 
-    //연속공격
+    [Header("연속 공격 발사체 수")]
     public int Again;
+
+    [Header("확률형 스킬")]
+    public float Persent;
+    public float PersentTime;
 }

@@ -110,7 +110,7 @@ public class GrandSkill : Skill
         //애니메이션 끝나고 공격
         Vector2 dir = (target.transform.position - obj.transform.position).normalized;
         ProjectileController pre = obj.AddComponent<ProjectileController>();
-        pre.SetInfo(_player, dir, data.Damage, 10, true, time);
+        pre.SetInfo(_player, dir, GetDamage(data.Damage), 10, true, time);
 
         StartCoroutine(WaitCool(data.CoolTime, () => { skill3 = true; })); // 플레이어의 스킬 쿨 초기화
     }
@@ -124,9 +124,29 @@ public class GrandSkill : Skill
         if (!Manager.Skill._skillDic.ContainsKey(_hero) || !skill4 || !CheckMp(data))
             return;
 
+        List<MonsterController> target = Manager.Monster.SearchMonster(transform.parent, data.SkillArange, data.Target);
+
         skill4 = false;
 
-        Debug.Log("skill4");
+        foreach(var mon in target)
+        {
+            GameObject obj = Manager.Resources.Instantiate("Skills/GrandSturn", mon.transform.position, Quaternion.identity);
+            Animator anim = obj.GetComponent<Animator>();
+
+            anim.Play("GrandSturn");
+            float time = GetClipLength(anim, "GrandSturn");
+
+            //애니메이션 끝나고 공격
+            StartCoroutine(WaitCool(time, () =>
+            {
+                mon.OnDamage(_player, GetDamage(data.Damage)); // 적 공격함
+                if (Manager.Random.RollPercent(data.Persent))
+                    mon.Sturn(data.PersentTime);
+                Destroy(obj);
+            }));
+        }
+
+        StartCoroutine(WaitCool(data.CoolTime, () => { skill1 = true; }));
     }
  
     

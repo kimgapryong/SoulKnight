@@ -40,9 +40,10 @@ public abstract class Skill : BaseController
         Manager.Skill.SetSkillDic(_hero, this); //히어로의 스킬 등록
         SetData();
 
-        _skillDataDic[Define.SkillType.Skill1] = _data[0].Datas[0]; //임시 스킬 데이터
+        /*_skillDataDic[Define.SkillType.Skill1] = _data[0].Datas[0]; //임시 스킬 데이터
         _skillDataDic[Define.SkillType.Skill2] = _data[1].Datas[0];
         _skillDataDic[Define.SkillType.Skill3] = _data[2].Datas[0];
+        _skillDataDic[Define.SkillType.Skill4] = _data[3].Datas[0];*/
 
         //처음에는 그냥 플레이어
         _player = transform.parent.GetComponent<PlayerController>();
@@ -140,6 +141,9 @@ public abstract class Skill : BaseController
                 return;
 
         if (boolArray[count])
+            return;
+
+        if(_player._status.SkillPoint < data.SkillPoint)
             return;
 
         _player._status.SkillPoint -= data.SkillPoint; // 스킬 포인트 제거

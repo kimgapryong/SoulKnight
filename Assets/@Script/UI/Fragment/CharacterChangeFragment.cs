@@ -39,6 +39,13 @@ public class CharacterChangeFragment : UI_Base
         _status.hpAction += HpAction;
         _status.mpAction += MpAction;
 
+        BindEvent(GetButton((int)Buttons.Skill_Btn).gameObject, () =>
+        {
+            Manager.UI.ShowPopUI<SkillTreePop>(callback: (pop) =>
+            {
+                pop.SetInfo(myPla);
+            });
+        });
         if (myPla != Manager.Player)
             DeSelectBg();
 

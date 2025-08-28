@@ -12,6 +12,10 @@ public class SkillTreePop : UI_Pop
     {
         SkillContent,
     }
+    enum Buttons
+    {
+        Close_Btn,
+    }
 
     private PlayerController _player;
     private PlayerStatus _status;
@@ -24,7 +28,20 @@ public class SkillTreePop : UI_Pop
 
         BindText(typeof(Texts));
         BindObject(typeof(Objects));
+        BindButton(typeof(Buttons));
 
+        Refresh(_status.SkillPoint);
+        _status.pointAction = Refresh;
+
+        BindEvent(GetButton((int)Buttons.Close_Btn).gameObject, () => { ClosePopupUI(); });
+
+        foreach (var value in _skill._data)
+        {
+            Manager.UI.MakeSubItem<SkillTreeFragment>(GetObject((int)Objects.SkillContent).transform, callback: (fa) =>
+            {
+                fa.SetInfo(value.Type, value.Datas, _skill);
+            });
+        }
         return true;
     }
     public void SetInfo(PlayerController player)
@@ -34,13 +51,8 @@ public class SkillTreePop : UI_Pop
         _skill = player._skill;
     }
 
-    public void Refresh()
+    public void Refresh(int point)
     {
-        GetText((int)Texts.Point_Txt).text = $"SkillPoint: {_status.SkillPoint}";
-
-        foreach(var value in _skill._data)
-        {
-
-        }
+        GetText((int)Texts.Point_Txt).text = $"SkillPoint: {point}";
     }
 }

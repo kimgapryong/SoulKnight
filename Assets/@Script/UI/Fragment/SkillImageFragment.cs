@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SkillImageFramgnet : UI_Base
+public class SkillImageFragment : UI_Base
 {
    enum Images
     {
@@ -47,12 +47,17 @@ public class SkillImageFramgnet : UI_Base
             GetComponent<Image>().color = Color.green;
 
         GetImage((int)Images.SkillImage).sprite = _data.Image;
+
         GetText((int)Texts.Level_Txt).text = $"LEVEL:{_level + 1}"; // 숫자가 0부터 시작임
     }
 
     private void SkillUpgrade()
     {
-        _skill.SkillLevelUp(_type, _level, _data);
-        Refresh();
+        Manager.UI.ShowPopUI<SkillPointPop>(callback: (pop) =>
+        {
+            pop.SetInfo(_type, _level, _data,_skill, this);
+        });
+        /*_skill.SkillLevelUp(_type, _level, _data);
+        Refresh();*/
     }
 }

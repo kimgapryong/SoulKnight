@@ -10,6 +10,7 @@ public class MonsterController : CreatureController
     private Vector3 endPoint;
     protected float moveDist = 2f;
     private bool back = false;
+    private bool sturn = false;
     protected EnemyStatus _status;
 
     [SerializeField]
@@ -86,7 +87,7 @@ public class MonsterController : CreatureController
     }
     protected override void Idle()
     {
-        if (back)
+        if (back || sturn)
             return;
 
         if (target != null)
@@ -171,6 +172,14 @@ public class MonsterController : CreatureController
         StartCoroutine(WaitTime(0.2f, () => { back = false; State = Define.State.Move; }));
     }
 
+    public void Sturn(float time)
+    {
+        sturn = true;
+        State = Define.State.Idle;
+
+        sr.color = Color.gray;
+        StartCoroutine(WaitTime(time, () => { sturn = false; sr.color = Color.white; }));
+    }
 
     private void AddMy()
     {

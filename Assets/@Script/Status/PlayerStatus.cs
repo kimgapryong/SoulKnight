@@ -11,10 +11,20 @@ public class PlayerStatus : Status
     public MonsterController monster;
 
     public Action levelAction;
+    public Action<int> pointAction;
     public Action<float, float> mpAction;
-    public Action<float, float> expAction;
+    public Action expAction;
 
-    public int SkillPoint { get; set; } = 0;
+    private int _skillPoint;
+    public int SkillPoint
+    {
+        get { return _skillPoint; }
+        set
+        {
+            _skillPoint = value;
+            pointAction?.Invoke(value);
+        }
+    }
     public float Mp { get; protected set; }
     private float _curMp;
     public float CurMp
@@ -34,10 +44,13 @@ public class PlayerStatus : Status
         set
         {
             _curExp = value;
-            expAction?.Invoke(value, Exp);
+            expAction?.Invoke();
         }
     }
-
+    private void Start()
+    {
+        CurExp = 0;
+    }
     public void SetPlayerData(Define.HeroType type,string name, Sprite image, int level, float hp, float damage, float speed, float defence, float arange, float detection, float atkSpeed, float exp, float mp)
     {
         SetInfo(name, image, level, hp, damage, speed, defence, arange, detection, atkSpeed);

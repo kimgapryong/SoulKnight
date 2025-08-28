@@ -316,4 +316,7 @@ MonoBehaviour:
   - Type: 2
     Datas:
     - {fileID: 11400000, guid: 1114d14ad44c29240b51274b03fa1196, type: 2}
+  - Type: 3
+    Datas:
+    - {fileID: 11400000, guid: a4ba43eceef246a4cadcfd530cbce012, type: 2}
   _player: {fileID: 0}

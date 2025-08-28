@@ -6,16 +6,16 @@ public class SkillTreeFragment : UI_Base
 {
     private Skill _skill;
     private Define.SkillType _type;
-    private SkillData[] _data;
+    private List<SkillData> _data;
 
     protected override bool Init()
     {
         if(base.Init() == false)
             return false;
 
-        for(int i = 0; i < _data.Length; i++)
+        for(int i = 0; i < _data.Count; i++)
         {
-            Manager.UI.MakeSubItem<SkillImageFramgnet>(transform, callback: (fa) =>
+            Manager.UI.MakeSubItem<SkillImageFragment>(transform, callback: (fa) =>
             {
                 fa.SetInfo(_type,i, _data[i], _skill);
             });
@@ -23,7 +23,7 @@ public class SkillTreeFragment : UI_Base
 
         return true;
     }
-    public void SetInfo(Define.SkillType type, SkillData[] data, Skill skill)
+    public void SetInfo(Define.SkillType type, List<SkillData> data, Skill skill)
     {
         _data = data;
         _type = type;

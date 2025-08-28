@@ -47,7 +47,7 @@ public class AutoPlayerController : PlayerController
 
     public override void NormalAttack()
     {
-            atkAction?.Invoke();
+        atkAction.Invoke();
     }
     private void SetNormalAtk()
     {
@@ -67,13 +67,10 @@ public class AutoPlayerController : PlayerController
             while (State != Define.State.Attack)
                 yield return null;
 
-            
             yield return new WaitForSeconds(4f);
             int randValue = UnityEngine.Random.Range(0, 4);
-            if (randValue == 3) continue;
-            Debug.LogWarning(State);
-            Debug.LogWarning(randValue);
-            _skill._skillDic[types[randValue]]?.Invoke();
+            Debug.Log(randValue);
+            _skill._skillDic[types[3]]?.Invoke();
         }
     }
 
@@ -93,5 +90,6 @@ public class AutoPlayerController : PlayerController
         if(_cor == null)
             return;
         StopCoroutine(_cor);
+        _cor = null;
     }
 }
