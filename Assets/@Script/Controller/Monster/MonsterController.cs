@@ -12,13 +12,13 @@ public class MonsterController : CreatureController
     private Vector3 endPoint;
     protected float moveDist = 2f;
 
-    private bool atkCool = false;   
+    protected bool atkCool = false;   
     private bool back = false;
     private bool sturn = false;
     public EnemyStatus _status;
 
     [SerializeField]
-    private PlayerController target;
+    protected PlayerController target;
 
     private Coroutine _sturn;
     private Coroutine _poision;
@@ -78,6 +78,11 @@ public class MonsterController : CreatureController
     }
     protected override void Idle()
     {
+        if (atkCool)
+        {
+            rb.velocity = Vector2.zero;
+            return;
+        }
 
         if (target != null)
         {

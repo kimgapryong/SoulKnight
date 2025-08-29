@@ -45,19 +45,24 @@ public class ProjectileController : BaseController
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        MonsterController m = collision.GetComponent<MonsterController>();
+        CreatureController m;
+        if(attker is PlayerController)
+            m = collision.GetComponent<MonsterController>();
+        else
+            m = collision.GetComponent<PlayerController>();
+
         if (m == null) return;
 
         m.OnDamage(attker, damage);
 
-        if (chain && count < maxCount)
+        /*if (chain && count < maxCount)
         {
             MonsterController mon = Manager.Monster.ChainMonster(m);
             dir = (m.transform.position - mon.transform.position).normalized;
             AlignRotationToDir();
             count++;
             return;
-        }
+        }*/
 
         if(!penetration)
             Destroy(gameObject);
