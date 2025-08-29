@@ -22,7 +22,8 @@ public class PlayerController : CreatureController
         dist = 0.001f;
        
         _status = GetComponent<PlayerStatus>();
-        SetStatus(_status);
+        //SetStatus(_status);
+
         _skill= transform.Find("SkillAnim").GetComponent<Skill>();
 
         return true;

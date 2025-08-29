@@ -148,6 +148,7 @@ GameObject:
   - component: {fileID: 3392958718058287152}
   - component: {fileID: 3856846525670782183}
   - component: {fileID: 8827489588786237884}
+  - component: {fileID: 6969261882536076525}
   m_Layer: 0
   m_Name: NormalArcher
   m_TagString: Untagged
@@ -320,3 +321,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _status: {fileID: 0}
   _skill: {fileID: 0}
+--- !u!114 &6969261882536076525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6429539215462165430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ce34ffa71a00414990cf8a4793d5048, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  monster: {fileID: 0}

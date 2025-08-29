@@ -33,7 +33,7 @@ public class SkillTreePop : UI_Pop
         Refresh(_status.SkillPoint);
         _status.pointAction = Refresh;
 
-        BindEvent(GetButton((int)Buttons.Close_Btn).gameObject, () => { ClosePopupUI(); });
+        BindEvent(GetButton((int)Buttons.Close_Btn).gameObject, () => { ClosePopupUI(); _status.pointAction = null; });
 
         foreach (var value in _skill._data)
         {

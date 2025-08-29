@@ -19,7 +19,7 @@ public class CharacterManager
         GameObject player = Manager.Resources.Instantiate($"Players/{data.Path}", pos, Quaternion.identity);
         player.name = data.Path;
 
-        PlayerStatus status = player.AddComponent<PlayerStatus>();
+        PlayerStatus status = player.GetOrAddComponent<PlayerStatus>();
         status.SetPlayerData(data.Type,data.HeroName, data.Image, data.Level, data.Hp, data.Damange, data.Speed, data.Defence, data.Arange, data.Detction, data.AtkSpeed, 100, data.Mp);
 
         PlayerController pc = player.GetComponent<PlayerController>();

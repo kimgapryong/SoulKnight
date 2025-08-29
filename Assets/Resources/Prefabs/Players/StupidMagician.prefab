@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2222321969674818730}
   - component: {fileID: 506468450622218098}
   - component: {fileID: -6001840256843264223}
+  - component: {fileID: 8797068063175975414}
   m_Layer: 0
   m_Name: StupidMagician
   m_TagString: Untagged
@@ -186,6 +187,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _status: {fileID: 0}
   _skill: {fileID: 0}
+--- !u!114 &8797068063175975414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5437725126435504884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ce34ffa71a00414990cf8a4793d5048, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  monster: {fileID: 0}
 --- !u!1 &5462930405189213186
 GameObject:
   m_ObjectHideFlags: 0

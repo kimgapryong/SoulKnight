@@ -60,6 +60,7 @@ public class PlayerStatus : Status
 
     public void SetPlayerData(Define.HeroType type,string name, Sprite image, int level, float hp, float damage, float speed, float defence, float arange, float detection, float atkSpeed, float exp, float mp)
     {
+        Debug.Log(name);
         SetInfo(name, image, level, hp, damage, speed, defence, arange, detection, atkSpeed);
         _type = type;
         Exp = exp;

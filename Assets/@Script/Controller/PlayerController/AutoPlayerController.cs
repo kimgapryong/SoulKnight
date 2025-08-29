@@ -14,6 +14,7 @@ public class AutoPlayerController : PlayerController
 
         State = Define.State.Idle;
         SetNormalAtk();
+
         return true;
     }
    
