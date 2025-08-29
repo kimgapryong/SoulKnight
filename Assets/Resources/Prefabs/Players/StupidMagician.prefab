@@ -184,7 +184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d1b96e9290e29c42978e0b208f94654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monster: {fileID: 0}
+  _status: {fileID: 0}
   _skill: {fileID: 0}
 --- !u!1 &5462930405189213186
 GameObject:
@@ -197,6 +197,7 @@ GameObject:
   - component: {fileID: 3591163470840625575}
   - component: {fileID: 3141364049290497864}
   - component: {fileID: 1076670074385749122}
+  - component: {fileID: 5095041424371595834}
   m_Layer: 0
   m_Name: SkillAnim
   m_TagString: Untagged
@@ -265,7 +266,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.26, y: 1.5}
+  m_Size: {x: 2.5, y: 2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
@@ -281,7 +282,7 @@ Animator:
   m_GameObject: {fileID: 5462930405189213186}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d78a5310f0941fb489ec1d2c989ef9df, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -292,3 +293,30 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5095041424371595834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5462930405189213186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f817c765359d8f4db7a5d08981172ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hero: 0
+  _data:
+  - Type: 0
+    Datas:
+    - {fileID: 11400000, guid: 2cf0e77022e773d4a923c0e56d7b3c19, type: 2}
+  - Type: 1
+    Datas:
+    - {fileID: 11400000, guid: 23b005550fc0abc43bfc838181079526, type: 2}
+  - Type: 2
+    Datas:
+    - {fileID: 11400000, guid: d99f8f8887fdcf84d9ad661031a73c44, type: 2}
+  - Type: 3
+    Datas:
+    - {fileID: 11400000, guid: 64afde715f7b48e439091248f8f084bf, type: 2}
+  _player: {fileID: 0}

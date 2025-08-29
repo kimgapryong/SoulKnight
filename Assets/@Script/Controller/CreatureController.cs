@@ -33,6 +33,7 @@ public class CreatureController : BaseController
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
+        Debug.Log(sr);
         return true;
     }
    
@@ -59,7 +60,7 @@ public class CreatureController : BaseController
 
         float y = (Direct.x > 0f) ? 0f
                 : (Direct.x < 0f) ? -180f
-                : transform.position.y;
+                : transform.eulerAngles.y;
 
         Vector3 rot = transform.eulerAngles;
         rot.y = y;
@@ -82,27 +83,34 @@ public class CreatureController : BaseController
 
     public virtual void OnDamage(CreatureController attker, float damage)
     {
-        if(!_canAtk)
+        Hit(attker, damage);
+
+        Debug.Log(transform.name);
+        sr.color = Color.red;
+        StartCoroutine(WaitTime(0.15f, () => sr.color = Color.white));
+    }
+    protected virtual void Hit(CreatureController attker,float damage)
+    {
+        if (!_canAtk)
             return;
 
         _canAtk = false;
-        status.CurHp -= damage;    
+        status.CurHp -= damage;
 
-        if(status.CurHp <= 0)
+        if (status.CurHp <= 0)
         {
             OnDie(attker);
             return;
         }
-        StartCoroutine(WaitTime(callback: () => _canAtk = true));
-
-        sr.color = Color.red;
-        StartCoroutine(WaitTime(0.15f, () => sr.color = Color.white));
+        StartCoroutine(WaitTime(0.3f, () => { _canAtk = true; }));
     }
     protected virtual void OnDie(CreatureController attker) { Debug.Log("µÚÁü"); }
 
-    protected virtual IEnumerator WaitTime(float time = 0.3f, Action callback = null)
+    protected virtual IEnumerator WaitTime(float time, Action callback = null)
     {
+        
         yield return new WaitForSeconds(time);
+        
         callback?.Invoke();
     }
 }

@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 912da783308d1d94c82199fdb78ded3f, type: 3}
+  m_Name: Slash1
+  m_EditorClassIdentifier: 
+  SkillName: "\uC218\uD3C9\uBCA0\uAE30"
+  Image: {fileID: 21300000, guid: 80929235ace098041b4d671cdd2d86a5, type: 3}
+  Target: 1
+  SkillPoint: 1
+  Damage: 120
+  Mp: 10
+  SkillArange: 7
+  CoolTime: 3
+  color: {r: 1, g: 0.64280593, b: 0, a: 0}
+  Again: 0
+  Persent: 0
+  PersentTime: 0
+  SkillTime: 0
+  DotDamage: 0
+  DotSpeed: 0

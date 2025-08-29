@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
+
 
 public class GrandSkill : Skill
 {
@@ -51,14 +51,17 @@ public class GrandSkill : Skill
         if (!Manager.Skill._skillDic.ContainsKey(_hero) || !skill2 || !CheckMp(data))
             return;
 
-        MonsterController target = _player._status.monster;
 
-        if (target == null)
-            target = Manager.Monster.SearchMonster(transform.parent, data.SkillArange, data.Target)[0];
+        
+        List<MonsterController> target = Manager.Monster.SearchMonster(transform.parent, data.SkillArange, data.Target);
 
         skill2 = false;
 
-        StartCoroutine(Combo(target, data));
+        foreach (MonsterController t in target)
+        {
+            StartCoroutine(Combo(t, data));
+        }
+        
     }
     IEnumerator Combo(MonsterController target, SkillData data)
     {
@@ -146,7 +149,7 @@ public class GrandSkill : Skill
             }));
         }
 
-        StartCoroutine(WaitCool(data.CoolTime, () => { skill1 = true; }));
+        StartCoroutine(WaitCool(data.CoolTime, () => { skill4 = true; }));
     }
  
     

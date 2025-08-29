@@ -10,7 +10,11 @@ public class ProjectileController : BaseController
     private float speed;
 
     private bool penetration;
-    public void SetInfo(CreatureController attker, Vector3 dir, float damage, float speed = 7f, bool penetration = false, float time = 0.1f)
+
+    private bool chain = false;
+    private int maxCount = 0;
+    private int count = 0;
+    public void SetInfo(CreatureController attker, Vector3 dir, float damage, float speed = 7f, bool penetration = false, float time = 5f)
     {
         this.attker = attker;
         this.dir = dir;
@@ -24,7 +28,7 @@ public class ProjectileController : BaseController
             Destroy(gameObject, time);
             return;
         }
-        Destroy(gameObject, 5);    
+        Destroy(gameObject, time);    
         
     }
     private void AlignRotationToDir()
@@ -45,7 +49,23 @@ public class ProjectileController : BaseController
         if (m == null) return;
 
         m.OnDamage(attker, damage);
+
+        if (chain && count < maxCount)
+        {
+            MonsterController mon = Manager.Monster.ChainMonster(m);
+            dir = (m.transform.position - mon.transform.position).normalized;
+            AlignRotationToDir();
+            count++;
+            return;
+        }
+
         if(!penetration)
             Destroy(gameObject);
+    }
+
+    public void ChainAttack(int maxCount)
+    {
+        chain = true;
+        this.maxCount = maxCount;
     }
 }

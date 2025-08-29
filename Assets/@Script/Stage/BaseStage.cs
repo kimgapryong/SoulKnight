@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class BaseStage : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private bool _init;
+
+    private void Start()
     {
-        
+        Init();   
     }
 
-    // Update is called once per frame
-    void Update()
+    public virtual bool Init()
     {
-        
+        if (!_init)
+        {
+            _init = true;
+            return true;
+        }
+
+        return false;
     }
 }

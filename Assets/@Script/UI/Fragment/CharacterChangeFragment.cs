@@ -36,8 +36,11 @@ public class CharacterChangeFragment : UI_Base
         Refresh();
 
         _status.levelAction += Refresh;
-        _status.hpAction += HpAction;
-        _status.mpAction += MpAction;
+        _status.hpAction = HpAction;
+        _status.mpAction = MpAction;
+
+        _status.CurHp = _status.Hp;
+        _status.CurMp = _status.Mp;
 
         BindEvent(GetButton((int)Buttons.Skill_Btn).gameObject, () =>
         {

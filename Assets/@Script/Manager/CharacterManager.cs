@@ -9,7 +9,8 @@ public class CharacterManager
     public int playerCount = 0;
     private int index;
 
-    public Dictionary<int, PlayerController[]> _playerDic = new Dictionary<int, PlayerController[]>(); 
+    public Dictionary<int, PlayerController[]> _playerDic = new Dictionary<int, PlayerController[]>();
+    public List<PlayerController> playerList = new List<PlayerController>();
     
     public void CreatePlayer(PlayerData data, Vector3 pos)
     {
@@ -28,6 +29,8 @@ public class CharacterManager
 
         pcList[0] = pc;
         pcList[1] = auto;
+
+        playerList.Add(pc); // 플레리어추가
 
         //처음 등록한 플레이어
         if(playerCount == 0)
@@ -93,5 +96,23 @@ public class CharacterManager
                 auto.StopAutoSkill();
             auto.State = state;
         }
+    }
+
+    public List<PlayerController> SearchPlayer(Transform pos, float arange, int count = 0)
+    {
+        List<PlayerController> monList = new List<PlayerController>();
+        foreach (PlayerController mon in playerList)
+        {
+            if (Vector2.Distance(pos.position, mon.transform.position) > arange)
+                continue;
+
+            monList.Add(mon);
+
+            if (count != 0)
+                if (monList.Count >= count)
+                    return monList;
+        }
+
+        return monList;
     }
 }

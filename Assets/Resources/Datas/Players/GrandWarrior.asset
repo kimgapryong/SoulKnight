@@ -19,9 +19,10 @@ MonoBehaviour:
   Level: 1
   Hp: 200
   Mp: 50
-  Damange: 0
+  Damange: 10
   AtkSpeed: 0.6
   Speed: 6
   Defence: 10
   Arange: 1.2
   Detction: 8.4
+  Exp: 0

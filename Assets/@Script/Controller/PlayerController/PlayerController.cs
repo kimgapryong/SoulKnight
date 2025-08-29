@@ -147,7 +147,16 @@ public class PlayerController : CreatureController
         State = Define.State.Attack;
         _status.monster = monster;
     }
+    public void Heal(float heal)
+    {
+        _status.CurHp += heal;
+        if (sr == null)
+            sr = gameObject.GetOrAddComponent<SpriteRenderer>();
 
+        sr.color = Color.green;
+        StartCoroutine(WaitTime( 0.7f, () => { sr.color = Color.white; }));
+        
+    }
     private void OnEnable()
     {
         if (this is AutoPlayerController)

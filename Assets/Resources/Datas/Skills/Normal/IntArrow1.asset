@@ -21,6 +21,9 @@ MonoBehaviour:
   SkillArange: 10
   CoolTime: 4
   color: {r: 1, g: 1, b: 1, a: 0}
-  Again: 0
+  Again: 3
   Persent: 0
   PersentTime: 0
+  SkillTime: 0
+  DotDamage: 0
+  DotSpeed: 0

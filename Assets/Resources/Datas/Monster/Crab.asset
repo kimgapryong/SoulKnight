@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35802d03523ab654fb715021127c394a, type: 3}
+  m_Name: Crab
+  m_EditorClassIdentifier: 
+  Type: 0
+  Path: 
+  HeroName: "\uB3D9\uADF8\uB77C\uBBF8"
+  Image: {fileID: 0}
+  Level: 1
+  Hp: 50
+  Mp: 0
+  Damange: 20
+  AtkSpeed: 1
+  Speed: 2
+  Defence: 4
+  Arange: 3
+  Detction: 10
+  Exp: 100

@@ -6,24 +6,33 @@ using UnityEngine;
 
 public class MonsterController : CreatureController
 {
+    public PlayerData data;
+
     private string animString;
     private Vector3 endPoint;
     protected float moveDist = 2f;
+
+    private bool atkCool = false;   
     private bool back = false;
     private bool sturn = false;
-    protected EnemyStatus _status;
+    public EnemyStatus _status;
 
     [SerializeField]
     private PlayerController target;
 
+    private Coroutine _sturn;
+    private Coroutine _poision;
+    private float CurSpeed = 2;
     protected override bool Init()
     {
         if(base.Init() == false)
             return false;
 
         //테스트
-        _status = transform.AddComponent<EnemyStatus>();
-        _status.SetEnemyData("동그라미", null,1, 100, 10, 2, 5, 6, 9, 1, 100);
+        _status = transform.GetComponent<EnemyStatus>();
+        _status.SetEnemyData(data.HeroName, data.Image, data.Level, data.Hp, data.Damange, data.Speed, data.Defence, data.Arange, data.Detction, data.AtkSpeed, data.Exp);
+        CurSpeed = _status.Speed;
+
         SetStatus(_status);
 
         AddMy();
@@ -31,41 +40,23 @@ public class MonsterController : CreatureController
 
         return true;
     }
-    public void SetInfo(EnemyStatus status)
+    
+   protected override void ChangeAnim(Define.State state)
     {
-        _status = status;
-    }
-
-   /* protected override void ChangeAnim(Define.State state)
-    {
-        string animKey = "Side";
-        if (Mathf.Abs(Direct.x) - Mathf.Abs(Direct.y) > 0)
-            animKey = "Side";
-        else if (Mathf.Abs(Direct.x) - Mathf.Abs(Direct.y) < 0)
-            if (Direct.y > 0)
-                animKey = "B";
-            else
-                animKey = "F";
-
         switch (state)
         {
             case Define.State.Attack:
-
+                anim.Play("Hit");
                 break;
             case Define.State.Move:
-                {
-                    animString = $"Walk_{animKey}";
-                    anim.Play(animString);
-                }
+                anim.Play("Walk");
                 break;
             case Define.State.Idle:
-                {
-                    string idleKey = animString == "Walk_Side" ? "Idle_Side" : animString == "Walk_F" ? "Idle_F" : "Idle_B";
-                    anim.Play(idleKey);
-                }
+                anim.Play("Walk");
                 break;
         }
-    }*/
+    }
+
     protected override void Move()
     {
         if (target == null)
@@ -75,20 +66,18 @@ public class MonsterController : CreatureController
             return;
         }
 
-        //몬스터 공격 나중에 구현
-       /* if (Vector2.Distance(transform.position, (Vector2)target.transform.position) <= _status.Arange)
+        
+        if (Vector2.Distance(transform.position, (Vector2)target.transform.position) <= _status.Arange && !atkCool)
         {
             rb.velocity = Vector3.zero;
             State = Define.State.Attack;
             return;
-        }*/
+        }
 
         MovePlayer();
     }
     protected override void Idle()
     {
-        if (back || sturn)
-            return;
 
         if (target != null)
         {
@@ -115,8 +104,22 @@ public class MonsterController : CreatureController
         Direct = (endPoint - transform.position).normalized;
         rb.MovePosition(Vector2.MoveTowards(rb.position, (Vector2)endPoint, _status.Speed * Time.fixedDeltaTime));
     }
+
+    protected override void Attack()
+    {
+        atkCool = true;
+        State = Define.State.Move;
+        target.OnDamage(this, _status.Damage);
+        StartCoroutine(WaitTime(_status.AtkSpeed, () => atkCool = false));
+    }
     protected override void UpdateMethod()
     {
+        if(back || sturn)
+        {
+            rb.velocity = Vector2.zero;
+            return;
+        }
+            
         SearchPlayers();
         base.UpdateMethod();
     }
@@ -146,8 +149,14 @@ public class MonsterController : CreatureController
     public override void OnDamage(CreatureController attker, float damage)
     {
         Apply(attker.transform.position, 10f);
-        base.OnDamage(attker, damage);
-       
+        Hit(attker, damage);
+
+        sr.color = Color.red;
+        
+        if (_poision != null || _sturn != null)
+            StartCoroutine(WaitTime(0.15f, () => sr.color = Color.gray));
+        else
+            StartCoroutine(WaitTime(0.15f, () => sr.color = Color.white));
     }
 
     protected override void OnDie(CreatureController attker)
@@ -157,6 +166,8 @@ public class MonsterController : CreatureController
             return;
 
         auto.AutoReset(this);
+        auto._status.AddExp(_status.Amount);
+
         Destroy(gameObject);
     }
     public  void Apply(Vector2 source, float power, float upBonus = 0f)
@@ -165,6 +176,8 @@ public class MonsterController : CreatureController
         State = Define.State.Idle;
         back = true;
 
+        if(rb == null)
+            return ;
         rb.velocity = Vector2.zero;
         Vector2 dir = ((Vector2)rb.position - source).normalized;
         rb.AddForce((dir + Vector2.up * upBonus) * power, ForceMode2D.Impulse);
@@ -177,12 +190,38 @@ public class MonsterController : CreatureController
         sturn = true;
         State = Define.State.Idle;
 
+        Debug.Log(time);
         sr.color = Color.gray;
-        StartCoroutine(WaitTime(time, () => { sturn = false; sr.color = Color.white; }));
+
+        if (_sturn != null)
+            StopCoroutine(_sturn);
+
+        _sturn = StartCoroutine(WaitTime(time, () => { sturn = false; sr.color = Color.white; _sturn = null;  Debug.Log("STURN"); }));
+
     }
 
     private void AddMy()
     {
         Manager.Monster._monList.Add(this);
+    }
+
+    public void Poision(float time,float damage,float speed)
+    {
+        sr.color = Color.gray;
+
+        if (_poision != null )
+            StopAllCoroutines();
+        
+        _poision = StartCoroutine(SetPoision(damage, speed));
+        StartCoroutine(WaitTime(time, () => { StopCoroutine(_poision); _poision = null; _status.Speed = CurSpeed; sr.color = Color.white; }));
+    }
+    private IEnumerator SetPoision(float damage, float speed)
+    {
+        _status.Speed = _status.Speed * (speed / 100);
+        while (true)
+        {
+            _status.CurHp -= damage;
+            yield return new WaitForSeconds(1f);
+        }
     }
 }

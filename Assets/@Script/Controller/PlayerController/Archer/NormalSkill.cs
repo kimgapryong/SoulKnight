@@ -93,7 +93,7 @@ public class NormalSkill : Skill
             
             var obj = Manager.Resources.Instantiate("Skills/Arrow", transform.position, Quaternion.identity);
             var pre = obj.AddComponent<ProjectileController>();
-            pre.SetInfo(_player, dir, GetDamage(data.Damage), 12f);
+            pre.SetInfo(_player, dir, GetDamage(data.Damage), 12f,true, 6);
         }
         StartCoroutine(WaitCool(data.CoolTime, () => { skill3 = true; }));
     }

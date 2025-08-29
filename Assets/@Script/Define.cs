@@ -29,6 +29,10 @@ public static class Define
         Skill2,
         Skill3,
         Skill4,
-        Skill5,
+
+        Health,
+        AtkSpeed,
+        Speed,
+        Damage,
     }
 }

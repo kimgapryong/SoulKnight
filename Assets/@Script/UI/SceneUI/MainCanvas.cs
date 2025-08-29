@@ -6,6 +6,8 @@ public class MainCanvas : UI_Scene
 {
     List<CharacterChangeFragment> chaFragmentList = new List<CharacterChangeFragment>();
     List<MainSkillFragment> mainSkillFragments = new List<MainSkillFragment>();
+
+    public Dictionary<Define.SkillType, MainSkillFragment> _typeSkill = new Dictionary<Define.SkillType, MainSkillFragment>();
     private PlayerStatus _status;
    enum Objects
     {
@@ -35,7 +37,11 @@ public class MainCanvas : UI_Scene
         
         //리스트에 값추가
         foreach(var skill in transform.GetComponentsInChildren<MainSkillFragment>())
+        {
+            skill.SetDic(this);
             mainSkillFragments.Add(skill);
+        }
+            
 
         // 플레이어 스테어터스 창
         for(int i = 0; i < Manager.Character.playerCount; i++)
@@ -73,6 +79,7 @@ public class MainCanvas : UI_Scene
 
         Manager.Player._status.expAction = ExpAction;
         _status = Manager.Player._status;
+        ExpAction();
 
     }
     public void SkillIcon()

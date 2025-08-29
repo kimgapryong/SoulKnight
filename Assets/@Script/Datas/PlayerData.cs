@@ -19,4 +19,7 @@ public class PlayerData : ScriptableObject
     public float Defence;
     public float Arange;
     public float Detction;
+
+    [Header("몬스터 Exp양")]
+    public float Exp;
 }

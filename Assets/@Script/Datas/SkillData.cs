@@ -22,4 +22,15 @@ public class SkillData : ScriptableObject
     [Header("확률형 스킬")]
     public float Persent;
     public float PersentTime;
+
+    [Header("지속형 스킬")]
+    public float SkillTime;
+    public float DotDamage;
+    public float DotSpeed;
+
+    [Header("플레이어 스탯 스킬")]
+    public float Hp;
+    public float AtkSpeed;
+    public float Pdamage;
+    public float Speed;
 }

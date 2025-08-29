@@ -7,14 +7,14 @@ using UnityEngine.UI;
 public class InputController : BaseController
 {
     Camera mainCam;
-
+    MainCanvas main;
     protected override bool Init()
     {
         if(base.Init() == false)
             return false;
 
         mainCam = Camera.main;
-
+        main = Manager.UI.SceneUI as MainCanvas;
         return true;
     }
 
@@ -69,8 +69,17 @@ public class InputController : BaseController
         {
             Manager.Character.ChangePlayer(2);
         }
-    }
 
+        if (Input.GetKeyDown(KeyCode.Q)) { SetSkill(Define.SkillType.Skill1); }
+        if (Input.GetKeyDown(KeyCode.W)) { SetSkill(Define.SkillType.Skill2); }
+        if (Input.GetKeyDown(KeyCode.E)) { SetSkill(Define.SkillType.Skill3); }
+        if (Input.GetKeyDown(KeyCode.R)) { SetSkill(Define.SkillType.Skill4); }
+    }
+    private void SetSkill(Define.SkillType type)
+    {
+        Manager.Player._skill._skillDic[type]?.Invoke();
+        main._typeSkill[type].StartAmount(0, Manager.Player._skill._skillDataDic[type].CoolTime);
+    }
     private void PlayerPosition()
     {
         Transform posRoot = Manager.Pos.transform;

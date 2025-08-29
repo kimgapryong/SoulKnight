@@ -57,7 +57,9 @@ public class SkillPointPop : UI_Pop
     {
         _skill.SkillLevelUp(_type, _level, _data);
         _imageFramgnet.Refresh();
+
         MainCanvas main = Manager.UI.SceneUI as MainCanvas;
+        Debug.Log(main);
         main.SkillIcon();
     }
 

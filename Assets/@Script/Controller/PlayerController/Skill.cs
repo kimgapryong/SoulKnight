@@ -13,13 +13,14 @@ public abstract class Skill : BaseController
     public Dictionary<Define.SkillType, SkillData> _skillDataDic = new Dictionary<Define.SkillType, SkillData>();
 
     public PlayerController _player;
-    private Animator anim;
+    protected Animator anim;
 
     protected bool skill1 = true;  // 스킬 쿨 확인
     protected bool skill2 = true;
     protected bool skill3 = true;
     protected bool skill4 = true;
 
+  
     private Define.SkillType _type;
     public Define.SkillType Type
     {
@@ -103,11 +104,13 @@ public abstract class Skill : BaseController
     {
         return _player._status.Damage * damage / 100;
     }
-    protected IEnumerator WaitCool(float time, Action callback)
+    protected IEnumerator WaitCool(float time,  Action callback)
     {
         yield return new WaitForSeconds(time);
         callback?.Invoke();
     }
+    
+  
     //  마나 체크
     protected bool CheckMp(SkillData data)
     {
@@ -151,6 +154,23 @@ public abstract class Skill : BaseController
 
         boolArray[count] = true;
         _skilCheckDic[type] = boolArray;
+
+        switch (type)
+        {
+            case Define.SkillType.Health:
+                _player._status.Hp += data.Hp;
+                _player._status.CurHp = _player._status.Hp;
+                break;
+            case Define.SkillType.AtkSpeed:
+                _player._status.AtkSpeed -= data.AtkSpeed;
+                break;
+            case Define.SkillType.Damage:
+                _player._status.Damage += data.Pdamage;
+                break;
+            case Define.SkillType.Speed:
+                _player._status.Speed += data.Speed;
+                break;
+        }
     }
 
 }

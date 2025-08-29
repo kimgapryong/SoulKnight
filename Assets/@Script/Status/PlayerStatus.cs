@@ -15,7 +15,7 @@ public class PlayerStatus : Status
     public Action<float, float> mpAction;
     public Action expAction;
 
-    private int _skillPoint;
+    private int _skillPoint = 99;
     public int SkillPoint
     {
         get { return _skillPoint; }
@@ -32,8 +32,8 @@ public class PlayerStatus : Status
         get { return _curMp; }
         set
         {
-            _curMp = value;
-            mpAction?.Invoke(value, Mp);
+            _curMp = Mathf.Min(Mp, value);
+            mpAction?.Invoke(_curMp, Mp);
         }
     }
     public float Exp { get; protected set; } = 150;
@@ -47,10 +47,17 @@ public class PlayerStatus : Status
             expAction?.Invoke();
         }
     }
-    private void Start()
+    public override bool Init()
     {
+        if(base.Init() == false) 
+            return false;
+
         CurExp = 0;
+        StartCoroutine(GetMp());
+
+        return true;
     }
+
     public void SetPlayerData(Define.HeroType type,string name, Sprite image, int level, float hp, float damage, float speed, float defence, float arange, float detection, float atkSpeed, float exp, float mp)
     {
         SetInfo(name, image, level, hp, damage, speed, defence, arange, detection, atkSpeed);
@@ -75,6 +82,7 @@ public class PlayerStatus : Status
                 StatusUp(20,10, 1.5f, 1.2f);
                 break;
         }
+        Level++;
         Speed *= 1.2f;
         Exp *= 1.6f;
         SkillPoint++;
@@ -106,4 +114,12 @@ public class PlayerStatus : Status
         }
     }
 
+    public IEnumerator GetMp()
+    {
+        while(true)
+        {
+            yield return new WaitForSeconds(2f);
+            CurMp += 10;
+        }
+    }
 }
