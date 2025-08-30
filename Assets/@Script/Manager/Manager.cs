@@ -28,6 +28,8 @@ public class Manager : MonoBehaviour
 
     private RandomManager _random = new RandomManager();    
     public static RandomManager Random { get { return Instance._random; } }
+    private ItemManager _item = new ItemManager();
+    public static ItemManager Item { get { return Instance._item; } }
     public static void CameraInit()
     {
         if(_cam != null)

@@ -20,6 +20,11 @@ public abstract class Skill : BaseController
     protected bool skill3 = true;
     protected bool skill4 = true;
 
+
+    public bool itemTime;
+    public Coroutine itemTimeCor;
+    public bool mpTime;
+    public Coroutine mpTimeCor;
   
     private Define.SkillType _type;
     public Define.SkillType Type

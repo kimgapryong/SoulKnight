@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BaseController : MonoBehaviour
 {
-    private bool _first = false;
+    protected bool _first = false;
 
     private void Start()
     {

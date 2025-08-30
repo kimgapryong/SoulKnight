@@ -33,7 +33,7 @@ public class MonsterController : CreatureController
         _status.SetEnemyData(data.HeroName, data.Image, data.Level, data.Hp, data.Damange, data.Speed, data.Defence, data.Arange, data.Detction, data.AtkSpeed, data.Exp);
         CurSpeed = _status.Speed;
 
-//SetStatus(_status);
+        //SetStatus(_status);
 
         AddMy();
         State = Define.State.Idle;

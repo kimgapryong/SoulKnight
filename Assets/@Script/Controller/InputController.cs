@@ -23,6 +23,8 @@ public class InputController : BaseController
         Vector3 mousePos = mainCam.ScreenToWorldPoint(Input.mousePosition);
         if (Input.GetMouseButtonDown(1) || Input.GetMouseButton(1))
         {
+      
+
             if (mousePos.x < Manager.Pos.transform.position.x)
                 Manager.Pos.transform.eulerAngles = Vector3.zero;
             else if (mousePos.x > Manager.Pos.transform.position.x)

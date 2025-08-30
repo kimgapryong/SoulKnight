@@ -38,8 +38,10 @@ public class NormalSkill : Skill
             yield return new WaitForSeconds(0.1f);
         }
 
-
-        yield return new WaitForSeconds(data.CoolTime);
+        if(itemTime)
+            yield return new WaitForSeconds(1);
+        else
+            yield return new WaitForSeconds(data.CoolTime);
         skill1 = true;
     }
     public override void Skill2()
@@ -63,7 +65,10 @@ public class NormalSkill : Skill
             ProjectileController pre = obj.AddComponent<ProjectileController>();
             pre.SetInfo(_player, dir, GetDamage(data.Damage), 10);
         }
-        StartCoroutine(WaitCool(data.CoolTime, () => { skill2 = true; }));
+        if(itemTime)
+            StartCoroutine(WaitCool(1f, () => { skill2 = true; }));
+        else
+            StartCoroutine(WaitCool(data.CoolTime, () => { skill2 = true; }));
     }
 
     public override void Skill3()
@@ -95,7 +100,10 @@ public class NormalSkill : Skill
             var pre = obj.AddComponent<ProjectileController>();
             pre.SetInfo(_player, dir, GetDamage(data.Damage), 12f,true, 6);
         }
-        StartCoroutine(WaitCool(data.CoolTime, () => { skill3 = true; }));
+        if (itemTime)
+            StartCoroutine(WaitCool(1f, () => { skill3 = true; }));
+        else
+            StartCoroutine(WaitCool(data.CoolTime, () => { skill3 = true; }));
     }
 
     public override void Skill4()
@@ -122,7 +130,10 @@ public class NormalSkill : Skill
         pre.SetInfo(_player, dir, GetDamage(data.Damage), 0,true, 0.7f);
 
         Debug.Log("È­»ìºñ¤Óº÷ºñ");
-        StartCoroutine(WaitCool(data.CoolTime, () => { skill4 = true; }));
+        if (itemTime)
+            StartCoroutine(WaitCool(1f, () => { skill4 = true; }));
+        else
+            StartCoroutine(WaitCool(data.CoolTime, () => { skill4 = true; }));
 
     }
 

@@ -20,7 +20,7 @@ public class AutoPlayerController : PlayerController
    
     protected override void UpdateMethod()
     {
-        base.UpdateMethod();
+         base.UpdateMethod();
         SearchMonster();
     }
     private void SearchMonster()

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerController : CreatureController
 {
-    private Define.HeroType _type;
+    public Define.HeroType _type;
     protected Vector3 endPoint;
     private string animString;
     protected float dist; // 도착지점 거리
@@ -13,6 +13,8 @@ public class PlayerController : CreatureController
     protected bool isWalk; //공격시 이동중인지
     public PlayerStatus _status;
     public Skill _skill;
+
+
     protected override bool Init()
     {
         if(base.Init() == false)
@@ -79,8 +81,15 @@ public class PlayerController : CreatureController
                     break;
             }
     }
+    protected override void UpdateMethod()
+    {
+        if(_status.Death)
+            return;
+        base.UpdateMethod();
+    }
     protected override void Move()
     {
+
         _status.monster = null;
         if(Vector2.Distance(transform.position, endPoint) <= dist)
         {
@@ -157,6 +166,12 @@ public class PlayerController : CreatureController
         sr.color = Color.green;
         StartCoroutine(WaitTime( 0.7f, () => { sr.color = Color.white; }));
         
+    }
+   
+    protected override void OnDie(CreatureController attker)
+    {
+        base.OnDie(attker);
+        State = Define.State.Idle;
     }
     private void OnEnable()
     {

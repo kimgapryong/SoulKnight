@@ -35,4 +35,13 @@ public static class Define
         Speed,
         Damage,
     }
+
+    public enum ItemType
+    {
+        Heal1,
+        Mp1,
+        Cool,
+        MpCool,
+        Rebirth,
+    }
 }

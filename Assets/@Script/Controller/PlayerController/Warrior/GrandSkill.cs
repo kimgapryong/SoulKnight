@@ -36,10 +36,13 @@ public class GrandSkill : Skill
         StartCoroutine(WaitCool(time, () =>
         {
             target.OnDamage(_player,GetDamage(data.Damage)); // 적 공격함
-            StartCoroutine(WaitCool(data.CoolTime, () => { skill1 = true; })); // 플레이어의 스킬 쿨 초기화
+        // 플레이어의 스킬 쿨 초기화
             Destroy(obj);
         }));
-        
+        if (itemTime)
+            StartCoroutine(WaitCool(1f, () => { skill1 = true; }));
+        else
+            StartCoroutine(WaitCool(data.CoolTime, () => { skill1 = true; }));
     }
 
     public override void Skill2()
@@ -85,7 +88,10 @@ public class GrandSkill : Skill
         }
 
         // 콤보 끝난 후 쿨다운
-        yield return new WaitForSeconds(data.CoolTime);
+        if (itemTime)
+            yield return new WaitForSeconds(1);
+        else
+            yield return new WaitForSeconds(data.CoolTime);
         skill2 = true;
     }
     public override void Skill3()
@@ -115,7 +121,10 @@ public class GrandSkill : Skill
         ProjectileController pre = obj.AddComponent<ProjectileController>();
         pre.SetInfo(_player, dir, GetDamage(data.Damage), 10, true, time);
 
-        StartCoroutine(WaitCool(data.CoolTime, () => { skill3 = true; })); // 플레이어의 스킬 쿨 초기화
+        if (itemTime)
+            StartCoroutine(WaitCool(1f, () => { skill3 = true; }));
+        else
+            StartCoroutine(WaitCool(data.CoolTime, () => { skill3 = true; }));
     }
 
     public override void Skill4()
@@ -149,7 +158,10 @@ public class GrandSkill : Skill
             }));
         }
 
-        StartCoroutine(WaitCool(data.CoolTime, () => { skill4 = true; }));
+        if (itemTime)
+            StartCoroutine(WaitCool(1f, () => { skill4 = true; }));
+        else
+            StartCoroutine(WaitCool(data.CoolTime, () => { skill4 = true; }));
     }
  
     

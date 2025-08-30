@@ -35,7 +35,6 @@ public class CreatureController : BaseController
         sr = GetComponent<SpriteRenderer>();
         status = GetComponent<Status>();
 
-        Debug.Log(status);
         return true;
     }
    
@@ -49,7 +48,9 @@ public class CreatureController : BaseController
 
     protected virtual void UpdateMethod()
     {
-        
+       
+
+
         switch (State)
         {
             case Define.State.Attack:
@@ -85,6 +86,7 @@ public class CreatureController : BaseController
 
     public virtual void OnDamage(CreatureController attker, float damage)
     {
+       
         Hit(attker, damage);
 
         if (sr == null)
@@ -95,6 +97,7 @@ public class CreatureController : BaseController
     }
     protected virtual void Hit(CreatureController attker,float damage)
     {
+
         if (!_canAtk)
             return;
 
@@ -106,12 +109,14 @@ public class CreatureController : BaseController
         status.CurHp -= damage;
         if (status.CurHp <= 0)
         {
+            status.Death = true;
+            Debug.Log($"{transform.name} + {status.Death}+ Á×À½");
             OnDie(attker);
             return;
         }
         StartCoroutine(WaitTime(0.3f, () => { _canAtk = true; }));
     }
-    protected virtual void OnDie(CreatureController attker) { Debug.Log("µÚÁü"); }
+    protected virtual void OnDie(CreatureController attker) { Debug.Log("µÚÁü"); sr.color = Color.black; }
 
     protected virtual IEnumerator WaitTime(float time, Action callback = null)
     {

@@ -27,6 +27,7 @@ public class Status : MonoBehaviour
     public float Arange { get; set; }
     public float Detection { get; set; }
     public float AtkSpeed {  get; set; }    
+    public bool Death { get; set; } = false;
 
     public virtual void SetInfo(string heroName, Sprite image,int level, float hp, float damage, float speed, float defence, float arange, float detection, float atkSpeed)
     {

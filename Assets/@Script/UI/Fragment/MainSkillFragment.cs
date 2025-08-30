@@ -36,7 +36,6 @@ public class MainSkillFragment : UI_Base
     public void Refresh()
     {
         Skill curSkill = Manager.Player._skill;
-        Debug.Log(curSkill);
         if(!curSkill._skillDataDic.TryGetValue(type, out SkillData data))
         {
             GetImage((int)Images.Skill_Image).color = Color.gray;
