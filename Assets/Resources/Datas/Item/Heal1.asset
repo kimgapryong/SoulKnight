@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemName: "\uD790\uD3291"
   Type: 0
+  Image: {fileID: 21300000, guid: 4a1f03ed025c2ce4998ace964e5048aa, type: 3}
   Precent: 10
   ItemMax: 10
